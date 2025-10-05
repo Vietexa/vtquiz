@@ -1,0 +1,2 @@
+/usr/bin/ar qc libharfbuzz.a CMakeFiles/harfbuzz.dir/src/harfbuzz.cc.o
+/usr/bin/ranlib libharfbuzz.a

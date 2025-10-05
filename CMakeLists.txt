@@ -1,0 +1,23 @@
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+cmake_minimum_required(VERSION 3.16)
+project(sdl_app LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 17)
+
+
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output")
+
+set(SDLTTF_VENDORED ON CACHE BOOL "" FORCE)
+set(SDLTTF_PLUTOSVG OFF CACHE BOOL "" FORCE)
+
+add_subdirectory(src)
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
+add_subdirectory(vendored/SDL3_image EXCLUDE_FROM_ALL)
+add_subdirectory(vendored/SDL3_ttf EXCLUDE_FROM_ALL)
+
+
