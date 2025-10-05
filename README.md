@@ -1,6 +1,8 @@
 # image_quiz
 ## A quiz-like application where you have to answear the question you are shown by selecting a part of the image.
 
+version: 0.0.9
+
 **Note: This project is in its very early stages and it's nowhere near done.**
 
 How to build the project on Linux distributions:
