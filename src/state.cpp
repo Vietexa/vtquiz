@@ -2,18 +2,35 @@
 #include "SDL3/SDL_log.h"
 #include "SDL3/SDL_render.h"
 #include "SDL3_image/SDL_image.h"
-#include "SDL3_ttf/SDL_ttf.h"
 #include "include/gui.hpp"
+#include "include/global.hpp"
+
 
 #define WINDOW_SIZE_X 1920
 #define WINDOW_SIZE_Y 1080
 
-state::state(SDL_Renderer* renderer,TTF_Font* p_txt_font) : m_renderer(renderer), m_font(p_txt_font){
 
+// function wrappers
+void add_button(std::string id, std::string content, int x, int y ){
+buttons.try_emplace(id, renderer, txt_font, content, x, y, 200, 60);
+}
+
+void add_button(std::string id, std::string content, int x, int y, int width, int height){
+buttons.try_emplace(id, renderer, txt_font, content, x, y, width, height);
+}
+
+void add_label(std::string id, std::string content, int x, int y ){
+labels.try_emplace(id, renderer, txt_font, content,x, y);
+}
+
+void add_texture(std::string id, std::string path){
+textures.try_emplace(id, IMG_LoadTexture(renderer,path.c_str()));
 }
 
 
-void state::switch_state(unsigned char id){ // You change the state 
+
+
+void state::change_scene_id(unsigned char id){ // You change the state 
 
     if (id == current_id){
         SDL_Log("Error: You can't change the game state to the one it's already in\n");
@@ -25,15 +42,16 @@ void state::switch_state(unsigned char id){ // You change the state
 }
 
 void state::load_assets(){
-labels.try_emplace("greet",m_renderer, m_font, "Welcome to VTQuiz!", 850, 520);
-buttons.try_emplace("play", m_renderer, m_font, "Play", 850, 620, 200, 60);
-buttons.try_emplace("credits",m_renderer, m_font, "Credits", 850, 720, 200, 60);
-buttons.try_emplace("quit", m_renderer, m_font, "Quit", 850, 820, 200, 60);
 
-textures.try_emplace("background",IMG_LoadTexture(m_renderer, "./assets/png_files/image.png"));
-textures.try_emplace("marker",IMG_LoadTexture(m_renderer, "./assets/png_files/s_marker.png"));
-buttons.try_emplace("gb_menu",m_renderer, m_font, "Go Back", 100, 1000, 200, 60);
-labels.try_emplace("test_label",m_renderer, m_font, "Did the label get created?", 200, 300);
+add_label("greet","Welcome to VTQuiz!", 850, 520);
+add_button("play", "Play", 850, 620);
+add_button("credits", "Credits", 850, 720);
+add_button("quit", "Quit", 850, 820);
+
+add_texture("background","./assets/png_files/image.png");
+add_texture("marker", "./assets/png_files/s_marker.png");
+add_button("gb_menu", "Go Back", 100, 1000);
+add_label("test_label","Did the label get created?", 200, 300);
 }
 
 
@@ -82,32 +100,30 @@ void state::render_marker(){
 
 
     SDL_FRect rect = {rect_x ,rect_y ,rect_w,rect_h};
-    SDL_RenderTexture(m_renderer,textures.at("marker"), NULL, &rect);
+    SDL_RenderTexture(renderer,textures.at("marker"), NULL, &rect);
 
 }
 
 
 void state::render_main_menu(){
-current_id = 1;
-SDL_SetRenderDrawColor(m_renderer,0,0,0, 255);
-SDL_RenderClear(m_renderer);
+SDL_SetRenderDrawColor(renderer,0,0,0, 255);
+SDL_RenderClear(renderer);
 labels.at("greet").draw();
 buttons.at("play").draw();
 buttons.at("credits").draw();
 buttons.at("quit").draw();
-SDL_RenderPresent(m_renderer);
+SDL_RenderPresent(renderer);
 
 }
 
 void state::render_game(){
-    current_id = 2;
-    SDL_SetRenderDrawColor(m_renderer,0,0,0, 255);
-    SDL_RenderClear(m_renderer);
-    SDL_RenderTexture(m_renderer,textures["background"], NULL, NULL);
+    SDL_SetRenderDrawColor(renderer,0,0,0, 255);
+    SDL_RenderClear(renderer);
+    SDL_RenderTexture(renderer,textures["background"], NULL, NULL);
     if (mouse_pos_x != 0 && mouse_pos_y != 0) render_marker();
     buttons.at("gb_menu").draw();
     labels.at("test_label").draw();
-    SDL_RenderPresent(m_renderer);
+    SDL_RenderPresent(renderer);
    
 }
 

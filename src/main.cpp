@@ -25,15 +25,16 @@
 #include "include/state.hpp"
 #include "include/utils.hpp"
 
-std::unordered_map<std::string,SDL_Texture*> textures;
-std::unordered_map<std::string, Button> buttons;
-std::unordered_map<std::string, Label> labels;
+
+ std::unordered_map<std::string,SDL_Texture*> textures;
+ std::unordered_map<std::string, Button> buttons;
+ std::unordered_map<std::string, Label> labels;
 
 
-static SDL_Window* window = nullptr;
-static SDL_Renderer* renderer = nullptr;
-static TTF_Font * txt_font = nullptr;
-static state* state_ptr = nullptr;
+ SDL_Window* window = nullptr;
+ SDL_Renderer* renderer = nullptr;
+ TTF_Font * txt_font = nullptr;
+ state* state_ptr = nullptr;
 
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
@@ -77,10 +78,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 }
 
 
-state_ptr = new state(renderer, txt_font);
+state_ptr = new state;
 state_ptr->load_assets();
 
-state_ptr->switch_state(1);
+state_ptr->change_scene_id(1);
 
 
 return SDL_APP_CONTINUE; 
@@ -100,7 +101,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
         state_ptr->mouse_pos_x = 0;
         state_ptr->mouse_pos_y = 0;
         SDL_Log("Button was clicked!");
-        state_ptr->switch_state(2);
+        state_ptr->change_scene_id(2);
                  } 
 
     if (buttons.at("quit").wasClicked(*event)){
@@ -114,7 +115,7 @@ if (state_ptr->current_id == 2){
         state_ptr->mouse_pos_x = 0;
         state_ptr->mouse_pos_y = 0;
         SDL_Log("Button was clicked!");
-        state_ptr->switch_state(1);
+        state_ptr->change_scene_id(1);
                  } 
 
                 }
