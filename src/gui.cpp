@@ -6,8 +6,8 @@
 Button::Button(SDL_Renderer* renderer,
                TTF_Font* font,
                const std::string& text,
-               float x, float y, float w, float h)
-    : m_renderer(renderer), m_font(font)
+               float x, float y, float w, float h, char scene_id ,char priority)
+    : m_renderer(renderer), m_font(font), m_scene_id(scene_id), m_priority(priority)
 {
     m_rect = {x, y, w, h};
     setText(text);
@@ -99,12 +99,12 @@ SDL_RenderCoordinatesFromWindow(m_renderer, px,py,&l_pos_x, &l_pos_y);
 }
 
 
-Label::Label(SDL_Renderer* renderer ,TTF_Font* font, const std::string& text, float x, float y)
-: m_renderer(renderer), m_font(font){
+Label::Label(SDL_Renderer* renderer ,TTF_Font* font, const std::string& text, float x, float y, char scene_id ,char priority)
+: m_renderer(renderer), m_font(font), m_scene_id(scene_id), m_priority(priority){
 pos_x = x;
 pos_y = y;
 setText(text);
-}
+} 
 
 Label::~Label(){
      if (m_label) SDL_DestroyTexture(m_label);

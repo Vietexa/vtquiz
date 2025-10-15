@@ -9,10 +9,12 @@ public:
     Button(SDL_Renderer* renderer,
            TTF_Font* font,
            const std::string& text,
-           float x, float y, float w, float h);
+           float x, float y, float w, float h, char scene_id ,char priority);
 
     ~Button();
 
+    char m_scene_id;
+    char m_priority;
     
     void draw() const;
     bool wasClicked(const SDL_Event& e);
@@ -37,12 +39,15 @@ private:
 class Label{
 public:
 
-Label(SDL_Renderer* renderer,TTF_Font* font, const std::string& text,float x, float y);
+Label(SDL_Renderer* renderer,TTF_Font* font, const std::string& text,float x, float y, char scene_id ,char priority);
 
 ~Label();
 
 void setText(const std::string& text);
 void draw();
+
+char m_scene_id;
+char m_priority;
 
 private:
 SDL_Renderer* m_renderer = nullptr; 

@@ -3,6 +3,7 @@ class state{
 
 public:
 void load_assets();
+void sort_items();
 void change_scene_id(unsigned char id);
 void render_scene();
 unsigned char current_id = 0;

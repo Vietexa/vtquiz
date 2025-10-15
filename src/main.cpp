@@ -1,6 +1,7 @@
 
 
 #include "SDL3/SDL_mouse.h"
+#include "SDL3/SDL_timer.h"
 #include "SDL3_ttf/SDL_ttf.h"
 #include <string>
 #include <unordered_map>
@@ -80,6 +81,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
 state_ptr = new state;
 state_ptr->load_assets();
+state_ptr->sort_items();
 
 state_ptr->change_scene_id(1);
 
