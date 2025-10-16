@@ -38,7 +38,7 @@ void state::render_marker(){
     rect_x = mouse_pos_x -  rect_w / 2; // draw it in the middle
     rect_y = mouse_pos_y - rect_h / 2;
 
-
+    
 
     SDL_FRect rect = {rect_x ,rect_y ,rect_w,rect_h};
     SDL_RenderTexture(renderer,textures.at("marker"), NULL, &rect);
@@ -210,7 +210,7 @@ SDL_Log("render_scene: missing label id (s2): '%s'", label_id.c_str());
 continue;}
 it->second.draw();
 }
-if(mouse_pos_x != 0 && mouse_pos_y) render_marker();
+if(mouse_pos_x != 0 && mouse_pos_y != 0) render_marker();
 
 SDL_RenderPresent(renderer);
 

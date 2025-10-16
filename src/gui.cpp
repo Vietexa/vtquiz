@@ -1,5 +1,6 @@
 #include "include/gui.hpp"
 #include "SDL3/SDL_rect.h"
+#include "include/global.hpp"
 #include "SDL3/SDL_render.h"
 #include <string>
 
@@ -35,8 +36,9 @@ void Button::draw() const {
 bool Button::wasClicked(const SDL_Event& e) {
     switch (e.type) {
     case SDL_EVENT_MOUSE_BUTTON_DOWN:
-        if (e.button.button == SDL_BUTTON_LEFT &&
-            contains(e.button.x, e.button.y)) {
+        if (e.button.button == SDL_BUTTON_LEFT && contains(e.button.x, e.button.y)) {
+            state_ptr->mouse_pos_x = 0;
+            state_ptr->mouse_pos_y = 0;
             m_pressedInside = true;
         }
         break;

@@ -3,6 +3,7 @@
 #include "SDL3/SDL_mouse.h"
 #include "SDL3/SDL_timer.h"
 #include "SDL3_ttf/SDL_ttf.h"
+#include "include/global.hpp"
 #include <string>
 #include <unordered_map>
 #ifdef unix
@@ -100,9 +101,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
    
     if(state_ptr->current_id == 1){
         if (buttons.at("play").wasClicked(*event)) {
-        state_ptr->mouse_pos_x = 0;
-        state_ptr->mouse_pos_y = 0;
-        SDL_Log("Button was clicked!");
         state_ptr->change_scene_id(2);
                  } 
 
@@ -114,9 +112,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
     
 if (state_ptr->current_id == 2){
         if (buttons.at("gb_menu").wasClicked(*event)) {
-        state_ptr->mouse_pos_x = 0;
-        state_ptr->mouse_pos_y = 0;
-        SDL_Log("Button was clicked!");
         state_ptr->change_scene_id(1);
                  } 
 
