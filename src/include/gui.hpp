@@ -1,4 +1,5 @@
 #pragma once
+#include "SDL3/SDL_render.h"
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
@@ -36,6 +37,7 @@ private:
     bool m_pressedInside = false;
 };
 
+
 class Label{
 public:
 
@@ -59,7 +61,22 @@ float pos_x = 0, pos_y = 0;
 
 };
 
-extern std::unordered_map<std::string,SDL_Texture*> textures;
+
+class Texture{
+
+
+public:
+Texture(std::string path, char priority, char scene_id);
+char m_scene_id;
+char m_priority;
+SDL_Texture* m_texture;
+
+};
+
+
+
+
+extern std::unordered_map<std::string, Texture> textures;
 extern std::unordered_map<std::string, Button> buttons;
 extern std::unordered_map<std::string, Label> labels;
 

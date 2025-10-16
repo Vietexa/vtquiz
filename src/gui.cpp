@@ -1,5 +1,6 @@
 #include "include/gui.hpp"
 #include "SDL3/SDL_rect.h"
+#include "SDL3_image/SDL_image.h"
 #include "include/global.hpp"
 #include "SDL3/SDL_render.h"
 #include <string>
@@ -143,6 +144,10 @@ void Label::draw(){
 
 m_rect = {pos_x,pos_y,(float)m_labelW, (float)m_labelH};
 SDL_RenderTexture(m_renderer,m_label,nullptr,&m_rect);
+}
+
+Texture::Texture(std::string path, char priority, char scene_id) : m_scene_id(scene_id) , m_priority(priority){
+m_texture = IMG_LoadTexture(renderer, path.c_str());
 }
 
 

@@ -28,7 +28,7 @@
 #include "include/utils.hpp"
 
 
- std::unordered_map<std::string,SDL_Texture*> textures;
+ std::unordered_map<std::string,Texture> textures;
  std::unordered_map<std::string, Button> buttons;
  std::unordered_map<std::string, Label> labels;
 
