@@ -5,6 +5,7 @@
 #include "include/global.hpp"
 #include <algorithm>
 #include <string>
+#include <string.h>
 #include <vector>
 
 
@@ -13,17 +14,10 @@
 
 
 
-std::vector<std::string> button_ids_s1;
-std::vector<std::string> button_ids_s2;
-std::vector<std::string> button_ids_s3;
+std::vector<std::string> raw_element_ids_s1;
+std::vector<std::string> raw_element_ids_s2;
+std::vector<std::string> raw_element_ids_s3;
 
-std::vector<std::string> label_ids_s1;
-std::vector<std::string> label_ids_s2;
-std::vector<std::string> label_ids_s3;
-
-std::vector<std::string> texture_ids_s1;
-std::vector<std::string> texture_ids_s2;
-std::vector<std::string> texture_ids_s3;
 
 
 void state::render_marker(){
@@ -50,16 +44,18 @@ void state::render_marker(){
 }
 
 
+
 // function wrappers
 void add_button(std::string id, char priority, char scene_id, std::string content, int x, int y ){
 buttons.try_emplace(id, renderer, txt_font, content, x, y, 200, 60, scene_id, priority);
 if(priority >= 0 && scene_id >= 0){
+std::string element_id = "button|";
     switch(scene_id){
-    case 1: button_ids_s1.push_back(id);
+    case 1: raw_element_ids_s1.push_back(element_id + id);
     break;
-    case 2: button_ids_s2.push_back(id);
+    case 2: raw_element_ids_s2.push_back(element_id + id);
     break;
-    case 3: button_ids_s3.push_back(id);
+    case 3: raw_element_ids_s3.push_back(element_id + id);
     break;}
 }
 
@@ -69,12 +65,13 @@ void add_label(std::string label_id, char priority, char scene_id, const std::st
 labels.try_emplace(label_id, renderer, txt_font, content, x, y, scene_id, priority);
 
 if(priority >= 0 && scene_id >= 0){
+    std::string element_id = "label|";
     switch(scene_id){
-    case 1: label_ids_s1.push_back(label_id);
+    case 1: raw_element_ids_s1.push_back(element_id + label_id);
     break;
-    case 2: label_ids_s2.push_back(label_id);
+    case 2: raw_element_ids_s2.push_back(element_id + label_id);
     break;
-    case 3: label_ids_s3.push_back(label_id);
+    case 3: raw_element_ids_s3.push_back(element_id + label_id);
     break;}
 }
 }
@@ -83,77 +80,77 @@ void add_texture(std::string id, std::string path, char priority, char scene_id)
 textures.try_emplace(id, path, priority, scene_id);
 
 if(priority >= 0 && scene_id >= 0){
+    std::string element_id = "texture|";
     switch(scene_id){
-    case 1: texture_ids_s1.push_back(id);
+    case 1: raw_element_ids_s1.push_back(element_id + id);
     break;
-    case 2: texture_ids_s2.push_back(id);
+    case 2: raw_element_ids_s2.push_back(element_id + id);
     break;
-    case 3: texture_ids_s3.push_back(id);
+    case 3: raw_element_ids_s3.push_back(element_id + id);
     break;}
 }
 }
 
 void state::sort_items() {
     
-    auto button_compare = [&](const std::string& a, const std::string& b) -> bool {
-        auto it_a = buttons.find(a);
-        auto it_b = buttons.find(b);
+ auto compare_elements = [&](const std::string& a, const std::string& b) -> bool {
+        
+std::string a_element_id = a.substr(0,a.find("|"));
+std::string b_element_id = b.substr(0,b.find("|"));
 
-        const Button& A = it_a->second;
-        const Button& B = it_b->second;
-        return A.m_priority < B.m_priority;
-    };
+std::string a_id = a.substr(a.find("|") + 1);
+std::string b_id = b.substr(b.find("|") + 1);
+
+
+int a_priority = 0;
+int b_priority = 0;
+
+if (a_element_id == "button"){
+const Button& A = buttons.at(a_id);
+a_priority = A.m_priority;
+}
+else if(a_element_id == "label"){
+const Label& A = labels.at(a_id);
+a_priority = A.m_priority;
+}
+else if (a_element_id == "texture") {
+const Texture& A = textures.at(a_id);
+a_priority = A.m_priority;
+}
+else {return false;}
+
+ 
+if (b_element_id == "button"){
+const Button& B = buttons.at(b_id);
+b_priority = B.m_priority;
+}
+else if(b_element_id == "label"){
+const Label& B = labels.at(b_id);
+b_priority = B.m_priority;
+}
+else if (b_element_id == "texture") {
+const Texture& B = textures.at(b_id);
+b_priority = B.m_priority;
+}
+else {return false;}
+
+return a_priority < b_priority;
+
+ };
 
     
-    if (!button_ids_s1.empty())
-        std::sort(button_ids_s1.begin(), button_ids_s1.end(), button_compare);
-
-    if (!button_ids_s2.empty())
-        std::sort(button_ids_s2.begin(), button_ids_s2.end(), button_compare);
-
-    if (!button_ids_s3.empty())
-        std::sort(button_ids_s3.begin(), button_ids_s3.end(), button_compare);
-
-   
-    auto label_compare = [&](const std::string& a, const std::string& b) -> bool {
-        auto it_a = labels.find(a);
-        auto it_b = labels.find(b);
+if (!raw_element_ids_s1.empty()){
+std::sort(raw_element_ids_s1.begin(), raw_element_ids_s1.end(), compare_elements);
+}
         
-        const Label& A = it_a->second;
-        const Label& B = it_b->second;
-        return A.m_priority < B.m_priority;
-    };
+if (!raw_element_ids_s2.empty()){
+std::sort(raw_element_ids_s2.begin(), raw_element_ids_s2.end(), compare_elements);
+}
 
-    if (!label_ids_s1.empty())
-        std::sort(label_ids_s1.begin(), label_ids_s1.end(), label_compare);
-
-    if (!label_ids_s2.empty())
-        std::sort(label_ids_s2.begin(), label_ids_s2.end(), label_compare);
-
-    if (!label_ids_s3.empty())
-        std::sort(label_ids_s3.begin(), label_ids_s3.end(), label_compare);
-
-
-
-auto texture_compare = [&](const std::string& a, const std::string& b) -> bool {
-        auto it_a = textures.find(a);
-        auto it_b = textures.find(b);
-
-        const Texture& A = it_a->second;
-        const Texture& B = it_b->second;
-        return A.m_priority < B.m_priority;
-    };
-
-    if (!texture_ids_s1.empty())
-        std::sort(texture_ids_s1.begin(), texture_ids_s1.end(), button_compare);
-
-    if (!texture_ids_s2.empty())
-        std::sort(texture_ids_s2.begin(), texture_ids_s2.end(), button_compare);
-
-    if (!texture_ids_s3.empty())
-        std::sort(texture_ids_s3.begin(), texture_ids_s3.end(), button_compare);
-
-        
+if (!raw_element_ids_s3.empty()){
+std::sort(raw_element_ids_s3.begin(), raw_element_ids_s3.end(), compare_elements);
+}
+     
 }
 
 
@@ -202,72 +199,35 @@ break;
 
 void state::render_main_menu(){
 
-    SDL_SetRenderDrawColor(renderer,0,0,0, 255);
-    SDL_RenderClear(renderer);
+SDL_SetRenderDrawColor(renderer,0,0,0, 255);
+SDL_RenderClear(renderer);
 
-    for (const std::string& button_id : button_ids_s1) {
-        auto it = buttons.find(button_id);
-        if (it == buttons.end()) {
-          SDL_Log("render_scene: missing button id (s1): '%s'", button_id.c_str());
-         continue;
-        }
-     it->second.draw();
+for (const std::string& element : raw_element_ids_s1) {
+    std::string element_id = element.substr(0, element.find("|"));
+    std::string id = element.substr(element.find("|") + 1);
+    if (element_id == "button") buttons.at(id).draw();
+    else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
     }
-
-    for (const std::string& label_id : label_ids_s1) {
-        auto it = labels.find(label_id);
-        if (it == labels.end()) {
-        SDL_Log("render_scene: missing label id (s1): '%s'", label_id.c_str());
-        continue;
-        }
-    it->second.draw();
-    }
-
-    for (const std::string& texture_id : texture_ids_s1) {
-        auto it = textures.find(texture_id);
-        if (it == textures.end()) {
-          SDL_Log("render_scene: missing texture id (s1): '%s'", texture_id.c_str());
-         continue;
-        }
-    SDL_RenderTexture(renderer,textures.at(texture_id).m_texture, NULL, NULL);
-    }
-
+ 
 SDL_RenderPresent(renderer);
-
 }
 
 
 
- void state::render_game(){
+void state::render_game(){
 
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
 
-for (const std::string& texture_id : texture_ids_s2) {
-        auto it = textures.find(texture_id);
-        if (it == textures.end()) {
-          SDL_Log("render_scene: missing texture id (s1): '%s'", texture_id.c_str());
-         continue;
-        }
-    SDL_RenderTexture(renderer,textures.at(texture_id).m_texture, NULL, NULL);
+for (const std::string& element : raw_element_ids_s2) {
+    std::string element_id = element.substr(0, element.find("|"));
+    std::string id = element.substr(element.find("|") + 1);
+    if (element_id == "button") buttons.at(id).draw();
+    else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
     }
-
-for (const std::string& label_id : label_ids_s2) {
-auto it = labels.find(label_id);
-if (it == labels.end()) {
-SDL_Log("render_scene: missing label id (s2): '%s'", label_id.c_str());
-continue;}
-it->second.draw();
-}
-
-    for (const std::string& button_id : button_ids_s2) {
-auto it = buttons.find(button_id);
-if (it == buttons.end()) {
-SDL_Log("render_scene: missing button id (s2): '%s'", button_id.c_str());
-continue;}
-it->second.draw();
-}
 
 if (mouse_pos_x != 0 && mouse_pos_y != 0) render_marker();
 
@@ -281,29 +241,12 @@ SDL_RenderPresent(renderer);
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
-for (const std::string& button_id : button_ids_s3) {
-auto it = buttons.find(button_id);
-if (it == buttons.end()) {
-SDL_Log("render_scene: missing button id (s3): '%s'", button_id.c_str());
-continue;}
-it->second.draw();
-}
-
-for (const std::string& label_id : label_ids_s3) {
-auto it = labels.find(label_id);
-if (it == labels.end()) {
-SDL_Log("render_scene: missing label id (s3): '%s'", label_id.c_str());
-continue;}
-it->second.draw();
-}
-
-for (const std::string& texture_id : texture_ids_s3) {
-        auto it = textures.find(texture_id);
-        if (it == textures.end()) {
-          SDL_Log("render_scene: missing texture id (s1): '%s'", texture_id.c_str());
-         continue;
-        }
-    SDL_RenderTexture(renderer,textures.at(texture_id).m_texture, NULL, NULL);
+for (const std::string& element : raw_element_ids_s3) {
+    std::string element_id = element.substr(0, element.find("|"));
+    std::string id = element.substr(element.find("|") + 1);
+    if (element_id == "button") buttons.at(id).draw();
+    else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
     }
 
 SDL_RenderPresent(renderer);
