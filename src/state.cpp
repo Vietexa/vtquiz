@@ -166,15 +166,23 @@ void state::change_scene_id(unsigned char id){ // You change the state
 
 void state::load_assets(){
 
+// Main Menu
 add_label("TEST",2,1,"Welcome to VTQuiz!", 850, 520);
 add_button("play",0,1, "Play", 850, 620);
 add_button("credits",0,1, "Credits", 850, 720);
 add_button("quit",0,1, "Quit", 850, 820);
 
+// Game
 add_texture("background","./assets/png_files/image.png", 0, 2);
 add_texture("marker", "./assets/png_files/s_marker.png", -1, -1);
-add_button("gb_menu",1,2, "Go Back", 100, 1000);
+add_button("gb_menu_g",1,2, "Go Back", 100, 1000);
 add_label("test_label",2,2,"Did the label get created?", 200, 300);
+
+// Credits
+add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",400, 300);
+add_button("github",1,3, "Github", 400, 350);
+add_button("vietexadotcom",1,3, "vietexa.com", 700, 350);
+add_button("gb_menu_c",1,3, "Go Back", 100, 1000);
 }
 
 

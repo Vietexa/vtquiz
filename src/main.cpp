@@ -1,5 +1,6 @@
 
 
+#include "SDL3/SDL_misc.h"
 #include "SDL3/SDL_mouse.h"
 #include "SDL3/SDL_timer.h"
 #include "SDL3_ttf/SDL_ttf.h"
@@ -103,6 +104,9 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
         if (buttons.at("play").wasClicked(*event)) {
         state_ptr->change_scene_id(2);
                  } 
+     if (buttons.at("credits").wasClicked(*event)) {
+        state_ptr->change_scene_id(3);
+                 } 
 
     if (buttons.at("quit").wasClicked(*event)){
     return SDL_APP_SUCCESS;
@@ -111,8 +115,22 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
                 }
     
 if (state_ptr->current_id == 2){
-        if (buttons.at("gb_menu").wasClicked(*event)) {
+        if (buttons.at("gb_menu_g").wasClicked(*event)) {
         state_ptr->change_scene_id(1);
+                 } 
+
+                }
+
+if (state_ptr->current_id == 3){
+        if (buttons.at("gb_menu_c").wasClicked(*event)) {
+        state_ptr->change_scene_id(1);
+                 } 
+
+         if (buttons.at("github").wasClicked(*event)) {
+    SDL_OpenURL("https://github.com/Vietexa/vtquiz/");
+                 } 
+        if (buttons.at("vietexadotcom").wasClicked(*event)) {
+    SDL_OpenURL("https://vietexa.com/");
                  } 
 
                 }
