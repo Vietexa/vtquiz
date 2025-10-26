@@ -1,0 +1,105 @@
+name: Build (Linux + Windows GUI)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install base tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build pkg-config git
+
+     
+      - name: Install X11/Wayland + Mesa dev packages
+        run: |
+          sudo apt-get install -y \
+            # X11 stack
+            libx11-dev libxext-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+            # Wayland stack
+            libwayland-dev libxkbcommon-dev wayland-protocols \
+            # Graphics stack (EGL/DRM/GBM/OpenGL ES)
+            libdrm-dev libgbm-dev libegl1-mesa-dev libgles2-mesa-dev mesa-common-dev \
+            # Common SDL extras (audio/input/dbus/udev)
+            libasound2-dev libpulse-dev libudev-dev libdbus-1-dev
+
+      
+      - name: Run vendored install-deps scripts (if present)
+        shell: bash
+        run: |
+          set -e
+          for s in \
+            "./scripts/install-deps.sh" \
+            "./vendored/install-deps.sh" \
+            "./vendored/SDL/build-scripts/install_deps.sh"
+          do
+            if [ -x "$s" ]; then
+              echo "Running $s"
+              "$s"
+            fi
+          done
+
+      - name: Configure (Linux, GUI)
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=ON \
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{ github.workspace }}/build/output"
+          
+
+      - name: Build (Linux)
+        run: cmake --build build --parallel
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build-output
+          path: build/output/
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ninja
+        shell: pwsh
+        run: choco install ninja -y
+
+      - name: Run vendored install-deps scripts (if present)
+        shell: pwsh
+        run: |
+          $candidates = @(
+            ".\scripts\install-deps.ps1",
+            ".\vendored\install-deps.ps1"
+          )
+          foreach ($s in $candidates) {
+            if (Test-Path $s) {
+              Write-Host "Running $s"
+              & $s
+            }
+          }
+
+      - name: Configure (Windows, GUI)
+        shell: pwsh
+        run: |
+          cmake -S . -B build -G "Ninja Multi-Config" `
+            -DBUILD_SHARED_LIBS=ON `
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{ github.workspace }}\build\output"
+        
+          cmake -S . -B build `
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE="${{ github.workspace }}\build\output" `
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG="${{ github.workspace }}\build\output"
+
+      - name: Build (Windows, Release)
+        run: cmake --build build --config Release --parallel
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-output
+          path: build/output/
