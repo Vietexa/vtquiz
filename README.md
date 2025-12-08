@@ -21,6 +21,7 @@ So, here's what you need to do step by step:
 7. Your freshly built executable (together with the shared libraries) should be in the ``/build/output/`` directory
 
 
+test
 
 ### How to build the project on Linux distributions:
 
