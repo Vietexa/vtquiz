@@ -1,8 +1,7 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 cmake_minimum_required(VERSION 3.16)
-project(sdl_app LANGUAGES C CXX)
+project(VTQuiz LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
-
 
 
 
