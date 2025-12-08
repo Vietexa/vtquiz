@@ -32,11 +32,11 @@ So, here's what you need to do step by step:
    
    ```sudo pacman -S gcc make cmake```
 
-2. Change the directory to build (``cd build``) and build the Make and CMake files
+2. Change the directory to build (``cd build``) and build the CMake files
    
-``cmake ..``
+``cmake -S .. -B .``
 
-``make``
+``cmake --build``
 
 3. Your executable file should be in the ``/build/output/`` directory, as well as the other .so files
 
