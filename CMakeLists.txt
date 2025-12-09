@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.25)
+
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "")  # provide a json file with the compile commands so clangd can use it
+
 project(VTQuiz LANGUAGES C CXX)
 
 # Include the fetch content submodule and use it to fetch the dependencies
 include(FetchContent)
+
 option (use_static_libs "Make the project be statically linked" ON)
 
 if (use_static_libs)
@@ -22,6 +27,7 @@ else()
 
 endif()
 
+# Disable the SDL_Image backends
 foreach(loader AVIF BMP GIF JPG LBM PCX PNM QOI SVG TGA TIF WEBP XCF XPM XV STB)
     set(SDLIMAGE_${loader} OFF CACHE BOOL "" FORCE)
 endforeach()

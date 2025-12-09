@@ -1,19 +1,10 @@
 
+#define SDL_MAIN_USE_CALLBACKS 1 
 
 #include "SDL3/SDL_misc.h"
 #include "SDL3/SDL_mouse.h"
 #include "SDL3/SDL_timer.h"
 #include "SDL3_ttf/SDL_ttf.h"
-#include "include/global.hpp"
-#include <string>
-#include <unordered_map>
-#ifdef unix
-#include <X11/X.h>
-#endif
-
-#define SDL_MAIN_USE_CALLBACKS 1 
-
-
 #include "SDL3/SDL_init.h"
 #include "SDL3/SDL_keycode.h"
 #include <SDL3/SDL_log.h>
@@ -24,6 +15,14 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3/SDL_main.h>
 
+#ifndef _WIN32
+#include <X11/X.h>
+#endif
+
+#include <string>
+#include <unordered_map>
+
+#include "include/global.hpp"
 #include "include/gui.hpp"
 #include "include/state.hpp"
 #include "include/utils.hpp"
@@ -42,29 +41,29 @@
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
-    #ifdef unix
-    setenv("SDL_VIDEODRIVER", "x11", 1);
-    #endif
-
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
-    window = SDL_CreateWindow("VTQuiz",1920, 1080, SDL_WINDOW_FULLSCREEN);
-    renderer = SDL_CreateRenderer(window, "opengl");
-
-    if (!window || !renderer) {
-        SDL_Log("Couldn't create the window or the renderer: %s", SDL_GetError());
-        SDL_Log("Attempting to use software rendering as fallback...\n");
-        renderer = SDL_CreateRenderer(window, "software");
-    if (!window || !renderer){
-    SDL_Log("Attempt 2: Couldn't create the window or the renderer: %s", SDL_GetError());
-    return SDL_APP_FAILURE;
-    }
-        
+    window = SDL_CreateWindow("VTQuiz",1920, 1080, 0);
+    
+    if (!window) {
+        SDL_Log("Couldn't create the window: %s", SDL_GetError());  
+        return SDL_APP_FAILURE;    
     }
 
+    SDL_SetWindowFullscreen(window, true);
+
+    renderer = SDL_CreateRenderer(window, NULL);
+
+    if (!renderer){
+
+        SDL_Log("Couldn't create the renderer: %s", SDL_GetError());  
+        return SDL_APP_FAILURE;    
+    }
+
+   
     SDL_SetRenderLogicalPresentation(renderer,1920, 1080, SDL_LOGICAL_PRESENTATION_LETTERBOX);
  
      if (!TTF_Init()) {
