@@ -1,27 +1,67 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.25)
 project(VTQuiz LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# Include the fetch content submodule and use it to fetch the dependencies
+include(FetchContent)
+option (use_static_libs "Make the project be statically linked" ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+if (use_static_libs)
+    message("Attempting to statically link the project")
+
+    if (UNIX)
+      set(CMAKE_POSITION_INDEPENDENT_CODE ON )  
+    endif()
+
+    set(SDL_SHARED OFF) # Disable Dynamic Linking
+    set(SDL_STATIC ON) # Enable Static Linking
+    set(BUILD_SHARED_LIBS OFF)
+
+else()
+    set(SDL_SHARED ON) # Enable Dynamic Linking
+    set(SDL_STATIC OFF) # Disable Static Linking
+
+endif()
+
+foreach(loader AVIF BMP GIF JPG LBM PCX PNM QOI SVG TGA TIF WEBP XCF XPM XV STB)
+    set(SDLIMAGE_${loader} OFF CACHE BOOL "" FORCE)
+endforeach()
 
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output")
+set(SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE)
+set(SDL_TESTS OFF CACHE BOOL "" FORCE)
+set(SDL_INSTALL_TESTS OFF CACHE BOOL "" FORCE)
+
+# Default to Release if not specified otherwise
+if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+# Fetch the dependencies
+FetchContent_Declare(SDL3
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    GIT_TAG        release-3.2.26
+)
+FetchContent_MakeAvailable(SDL3)
 
 
-set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/vendored" CACHE PATH "Vendored libs path")
-
-set(SDLTTF_PLUTOSVG OFF CACHE BOOL "" FORCE)
-set(SDLIMAGE_AVIF OFF CACHE BOOL "" FORCE)
-set(SDLIMAGE_BMP OFF CACHE BOOL "" FORCE)
-set(SDLIMAGE_JPEG OFF CACHE BOOL "" FORCE)
-set(SDLIMAGE_WEBP OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(SDL3_image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+    GIT_TAG        release-3.2.4
+)
+FetchContent_MakeAvailable(SDL3_image)
 
 
-add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
-add_subdirectory(vendored/SDL3_image EXCLUDE_FROM_ALL)
-add_subdirectory(vendored/SDL3_ttf EXCLUDE_FROM_ALL)
-add_subdirectory(src)
+FetchContent_Declare(SDL3_ttf
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
+    GIT_TAG        release-3.2.0
+)
+FetchContent_MakeAvailable(SDL3_ttf)
+
+
+
+add_executable(VTQuiz src/main.cpp src/utils.cpp src/gui.cpp src/state.cpp)
+
+
+target_include_directories(VTQuiz PRIVATE src)
+
+target_link_libraries(VTQuiz PRIVATE SDL3::SDL3 SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf)
