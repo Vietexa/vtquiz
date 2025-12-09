@@ -76,7 +76,9 @@ jobs:
           libudev-dev \
           libdrm-dev \
           libgbm-dev
-
+         libx11-dev \
+         libfreetype-dev \
+         libharfbuzz-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
