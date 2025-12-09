@@ -103,5 +103,5 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-       name: VTQuiz-${{ matrix.os }}
+       name: VTQuiz-${{ matrix.os }}-${{ matrix.c_compiler }}
        path: ${{ steps.strings.outputs.build-output-dir }}
