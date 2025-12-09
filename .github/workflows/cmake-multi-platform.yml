@@ -54,6 +54,30 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Install SDL3 Linux dependencies
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libx11-dev \
+          libxext-dev \
+          libxrandr-dev \
+          libxcursor-dev \
+          libxi-dev \
+          libxinerama-dev \
+          libxfixes-dev \
+          libwayland-dev \
+          wayland-protocols \
+          libxkbcommon-dev \
+          libdbus-1-dev \
+          libasound2-dev \
+          libpulse-dev \
+          libibus-1.0-dev \
+          libudev-dev \
+          libdrm-dev \
+          libgbm-dev
+
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
