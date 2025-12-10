@@ -21,8 +21,6 @@ So, here's what you need to do step by step:
 7. Your freshly built executable (together with the shared libraries) should be in the ``build`` directory
 
 
-test
-
 ### How to build the project on Linux distributions:
 
 ### Arch Linux
@@ -39,7 +37,7 @@ test
 
    ```cmake -S . -B build```
 
-   ```cmake --build```
+   ```cmake --build build```
 
 3. Your executable file should be in the ``build`` directory, as well as the other .so files (if you choose to dynamically link the project)
 
