@@ -1,7 +1,7 @@
-# image_quiz
+# VTQuiz
 ## A quiz-like application where you have to answear the question you are shown by selecting a part of the image.
 
-version: 0.0.9
+version: 0.1.0
 
 **Note: This project is in its very early stages and it's nowhere near done.**
 
@@ -18,7 +18,7 @@ So, here's what you need to do step by step:
 4. Inside Visual Studio Code, go to the "extensions" tab and install CMakeTools (the one published by Microsoft)
 5. By installing the CMakeTools extension a new tab with the icon of CMake will be created, go to that tab and configure the build options
 6. After you finish configuring your build options, you can press F7 and wait for the project to be built
-7. Your freshly built executable (together with the shared libraries) should be in the ``/build/output/`` directory
+7. Your freshly built executable (together with the shared libraries) should be in the ``build`` directory
 
 
 test
@@ -33,12 +33,14 @@ test
    
    ```sudo pacman -S gcc make cmake```
 
-2. Change the directory to build (``cd build``) and build the CMake files
-   
-``cmake -S .. -B .``
+2. Create a directory called ``build`` and generate the CMake files inside of it, then build the project
+
+``mkdir build``
+
+``cmake -S . -B build``
 
 ``cmake --build``
 
-3. Your executable file should be in the ``/build/output/`` directory, as well as the other .so files
+3. Your executable file should be in the ``build`` directory, as well as the other .so files (if you choose to dynamically link the project)
 
 
