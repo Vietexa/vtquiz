@@ -1,17 +1,13 @@
 #include "include/state.hpp"
 #include "SDL3/SDL_log.h"
 #include "SDL3/SDL_render.h"
+#include "include/utils.hpp"
 #include "include/gui.hpp"
-#include "include/global.hpp"
+#include "include/globals.hpp"
 #include <algorithm>
 #include <string>
 #include <string.h>
 #include <vector>
-
-
-#define WINDOW_SIZE_X 1920
-#define WINDOW_SIZE_Y 1080
-
 
 
 std::vector<std::string> raw_element_ids_s1;
@@ -26,18 +22,16 @@ void state::render_marker(){
     float rect_w, rect_h ; // its width and height
     rect_w = rect_h = 50;
 
-    if (mouse_pos_x < 0 || mouse_pos_y < 0 || mouse_pos_x > WINDOW_SIZE_X || mouse_pos_y > WINDOW_SIZE_Y){ // check boundaries
-        mouse_pos_x = 0;
-        mouse_pos_y = 0;
-        SDL_Log("The area selected exceeds the rendering space. Please select a position within the rendering space.\n");
-        return;
-    }
+    float raw_pos_x = mouse_pos_x;
+    float raw_pos_y = mouse_pos_y;
 
-    rect_x = mouse_pos_x -  rect_w / 2; // draw it in the middle
-    rect_y = mouse_pos_y - rect_h / 2;
+    norm_to_raw(&raw_pos_x, &raw_pos_y);
+
+    rect_x = raw_pos_x -  rect_w / 2; // draw it in the middle
+    rect_y = raw_pos_y - rect_h / 2;
+
 
     
-
     SDL_FRect rect = {rect_x ,rect_y ,rect_w,rect_h};
     SDL_RenderTexture(renderer,textures.at("marker").m_texture, NULL, &rect);
 
@@ -46,8 +40,12 @@ void state::render_marker(){
 
 
 // function wrappers
-void add_button(std::string id, char priority, char scene_id, std::string content, int x, int y ){
-buttons.try_emplace(id, renderer, txt_font, content, x, y, 200, 60, scene_id, priority);
+void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y ){
+
+ float raw_pos_x = conv_to_raw_x(x);
+ float raw_pos_y = conv_to_raw_y(y);
+
+ buttons.try_emplace(id, renderer, txt_font, content, raw_pos_x, raw_pos_y, 200, 60, scene_id, priority);
 if(priority >= 0 && scene_id >= 0){
 std::string element_id = "button|";
     switch(scene_id){
@@ -62,7 +60,11 @@ std::string element_id = "button|";
 }
 
 void add_label(std::string label_id, char priority, char scene_id, const std::string& content, float x, float y){
-labels.try_emplace(label_id, renderer, txt_font, content, x, y, scene_id, priority);
+    
+    float raw_pos_x = conv_to_raw_x(x);
+    float raw_pos_y = conv_to_raw_y(y);
+
+    labels.try_emplace(label_id, renderer, txt_font, content, raw_pos_x, raw_pos_y, scene_id, priority);
 
 if(priority >= 0 && scene_id >= 0){
     std::string element_id = "label|";
@@ -77,6 +79,7 @@ if(priority >= 0 && scene_id >= 0){
 }
 
 void add_texture(std::string id, std::string path, char priority, char scene_id){
+
 textures.try_emplace(id, path, priority, scene_id);
 
 if(priority >= 0 && scene_id >= 0){
@@ -167,22 +170,22 @@ void state::change_scene_id(unsigned char id){ // You change the state
 void state::load_assets(){
 
 // Main Menu
-add_label("TEST",2,1,"Welcome to VTQuiz!", 850, 520);
-add_button("play",0,1, "Play", 850, 620);
-add_button("credits",0,1, "Credits", 850, 720);
-add_button("quit",0,1, "Quit", 850, 820);
+add_label("welcome_label",2,1,"Welcome to VTQuiz!", 0.45, 0.38);
+add_button("play",0,1, "Play", 0.45, 0.48);
+add_button("credits",0,1, "Credits", 0.45, 0.58);
+add_button("quit",0,1, "Quit", 0.45, 0.68);
 
 // Game
 add_texture("background","./assets/png_files/image.png", 0, 2);
 add_texture("marker", "./assets/png_files/s_marker.png", -1, -1);
-add_button("gb_menu_g",1,2, "Go Back", 100, 1000);
-add_label("test_label",2,2,"Did the label get created?", 200, 300);
+add_button("gb_menu_g",1,2, "Go Back", 0.1, 0.9);
+
 
 // Credits
-add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",400, 300);
-add_button("github",1,3, "Github", 400, 350);
-add_button("vietexadotcom",1,3, "vietexa.com", 700, 350);
-add_button("gb_menu_c",1,3, "Go Back", 100, 1000);
+add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",0.45, 0.38);
+add_button("github",1,3, "Github", 0.45, 0.38);
+add_button("vietexadotcom",1,3, "vietexa.com", 0.45, 0.48);
+add_button("gb_menu_c",1,3, "Go Back", 0.1, 0.9);
 }
 
 

@@ -22,7 +22,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "include/global.hpp"
+#include "include/globals.hpp"
 #include "include/gui.hpp"
 #include "include/state.hpp"
 #include "include/utils.hpp"
@@ -38,6 +38,9 @@
  TTF_Font * txt_font = nullptr;
  state* state_ptr = nullptr;
 
+ int screen_width = 0;
+ int screen_height = 0;
+
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
@@ -46,7 +49,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;
     }
 
-    window = SDL_CreateWindow("VTQuiz",1920, 1080, 0);
+    SDL_DisplayID display = SDL_GetPrimaryDisplay();
+
+    const SDL_DisplayMode *mode = SDL_GetCurrentDisplayMode(display);
+    if (mode) {
+    screen_width  = mode->w;
+    screen_height = mode->h;
+    }
+
+    window = SDL_CreateWindow("VTQuiz",screen_width, screen_height, 0);
     
     if (!window) {
         SDL_Log("Couldn't create the window: %s", SDL_GetError());  
@@ -63,8 +74,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;    
     }
 
-   
-    SDL_SetRenderLogicalPresentation(renderer,1920, 1080, SDL_LOGICAL_PRESENTATION_LETTERBOX);
  
      if (!TTF_Init()) {
         SDL_Log("Couldn't initialize the TTF %s", SDL_GetError());
@@ -97,7 +106,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
     if (event->type == SDL_EVENT_QUIT) return SDL_APP_SUCCESS;
     else if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && event->button.button == SDL_BUTTON_LEFT) 
-    get_mpos(renderer, state_ptr->mouse_pos_x, state_ptr->mouse_pos_y);
+    get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y);
    
     if(state_ptr->current_id == 1){
         if (buttons.at("play").wasClicked(*event)) {
