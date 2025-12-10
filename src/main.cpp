@@ -80,7 +80,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;    
     }
 
+    const char *name = SDL_GetRendererName(renderer);
 
+        if (name) {
+    SDL_Log("Renderer backend: %s", name);
+        }
 
  
      if (!TTF_Init()) {
