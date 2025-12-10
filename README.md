@@ -35,11 +35,11 @@ test
 
 2. Create a directory called ``build`` and generate the CMake files inside of it, then build the project
 
-``mkdir build``
+   ```mkdir build```
 
-``cmake -S . -B build``
+   ```cmake -S . -B build```
 
-``cmake --build``
+   ```cmake --build```
 
 3. Your executable file should be in the ``build`` directory, as well as the other .so files (if you choose to dynamically link the project)
 
