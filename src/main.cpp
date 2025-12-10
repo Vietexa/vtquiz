@@ -93,7 +93,7 @@ state_ptr = new state;
 state_ptr->load_assets();
 state_ptr->sort_items();
 
-state_ptr->change_scene_id(1);
+state_ptr->change_scene_id(0);
 
 
 return SDL_APP_CONTINUE; 
@@ -108,12 +108,12 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
     else if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && event->button.button == SDL_BUTTON_LEFT) 
     get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y);
    
-    if(state_ptr->current_id == 1){
+    if(state_ptr->current_id == 0){
         if (buttons.at("play").wasClicked(*event)) {
-        state_ptr->change_scene_id(2);
+        state_ptr->change_scene_id(1);
                  } 
      if (buttons.at("credits").wasClicked(*event)) {
-        state_ptr->change_scene_id(3);
+        state_ptr->change_scene_id(2);
                  } 
 
     if (buttons.at("quit").wasClicked(*event)){
@@ -122,16 +122,16 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
                 }
     
-if (state_ptr->current_id == 2){
+if (state_ptr->current_id == 1){
         if (buttons.at("gb_menu_g").wasClicked(*event)) {
-        state_ptr->change_scene_id(1);
+        state_ptr->change_scene_id(0);
                  } 
 
                 }
 
-if (state_ptr->current_id == 3){
+if (state_ptr->current_id == 2){
         if (buttons.at("gb_menu_c").wasClicked(*event)) {
-        state_ptr->change_scene_id(1);
+        state_ptr->change_scene_id(0);
                  } 
 
          if (buttons.at("github").wasClicked(*event)) {

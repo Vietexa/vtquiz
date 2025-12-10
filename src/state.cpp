@@ -14,16 +14,27 @@ std::vector<std::string> raw_element_ids_s1;
 std::vector<std::string> raw_element_ids_s2;
 std::vector<std::string> raw_element_ids_s3;
 
+void render_main_menu(void);
+void render_game(void);
+void render_credits(void);
 
 
-void state::render_marker(){
+void (*scene_ptr[4])(void){
+render_main_menu,
+render_game,
+render_credits
+};
+
+
+
+void render_marker(){
 
     float rect_x, rect_y; // the pos of the marker
     float rect_w, rect_h ; // its width and height
     rect_w = rect_h = 50;
 
-    float raw_pos_x = mouse_pos_x;
-    float raw_pos_y = mouse_pos_y;
+    float raw_pos_x = state_ptr->mouse_pos_x;
+    float raw_pos_y =state_ptr-> mouse_pos_y;
 
     norm_to_raw(&raw_pos_x, &raw_pos_y);
 
@@ -182,7 +193,7 @@ add_button("gb_menu_g",1,2, "Go Back", 0.1, 0.9);
 
 
 // Credits
-add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",0.45, 0.38);
+add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",0.1, 0.28);
 add_button("github",1,3, "Github", 0.45, 0.38);
 add_button("vietexadotcom",1,3, "vietexa.com", 0.45, 0.48);
 add_button("gb_menu_c",1,3, "Go Back", 0.1, 0.9);
@@ -192,23 +203,12 @@ add_button("gb_menu_c",1,3, "Go Back", 0.1, 0.9);
 void state::render_scene(){ // You render the scene that corresponds to the state
 unsigned char s_id = current_id;
 
-switch (s_id){
-
-case 1: render_main_menu();
-break;
-
-case 2: render_game();
-break;
-
-
-case 3: render_credits();
-break;
-}
+scene_ptr[s_id]();
 
  }
 
 
-void state::render_main_menu(){
+void render_main_menu(){
 
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
@@ -226,7 +226,7 @@ SDL_RenderPresent(renderer);
 
 
 
-void state::render_game(){
+void render_game(){
 
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
@@ -240,7 +240,7 @@ for (const std::string& element : raw_element_ids_s2) {
     else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
     }
 
-if (mouse_pos_x != 0 && mouse_pos_y != 0) render_marker();
+if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
 
 SDL_RenderPresent(renderer);
 
@@ -248,7 +248,7 @@ SDL_RenderPresent(renderer);
 
 
 
- void state::render_credits(){
+ void render_credits(){
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
