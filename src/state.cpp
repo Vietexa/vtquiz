@@ -14,10 +14,6 @@ std::vector<std::string> raw_element_ids_s1;
 std::vector<std::string> raw_element_ids_s2;
 std::vector<std::string> raw_element_ids_s3;
 
-std::vector<std::string> button_ids_s1;
-std::vector<std::string> button_ids_s2;
-std::vector<std::string> button_ids_s3;
-
 void render_main_menu(void);
 void render_game(void);
 void render_credits(void);
@@ -66,14 +62,11 @@ std::string element_id = "button|";
     switch(scene_id){
     case 1: 
     raw_element_ids_s1.push_back(element_id + id);
-    button_ids_s1.push_back(id);
     break;
     case 2: 
     raw_element_ids_s2.push_back(element_id + id);
-    button_ids_s2.push_back(id);
     break;
     case 3: raw_element_ids_s3.push_back(element_id + id);
-    button_ids_s3.push_back(id);
     break;}
 }
 
