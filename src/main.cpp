@@ -39,8 +39,8 @@
  TTF_Font * txt_font = nullptr;
  state* state_ptr = nullptr;
 
- int screen_width = 0;
- int screen_height = 0;
+ int window_size_x = 0;
+ int window_size_y = 0;
 
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
@@ -52,13 +52,16 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
     SDL_DisplayID display = SDL_GetPrimaryDisplay();
 
+    int display_width = 0;
+    int display_height = 0;
+
     const SDL_DisplayMode *mode = SDL_GetCurrentDisplayMode(display);
     if (mode) {
-    screen_width  = mode->w;
-    screen_height = mode->h;
+    display_width  = mode->w;
+    display_height = mode->h;
     }
 
-    window = SDL_CreateWindow("VTQuiz",screen_width, screen_height, 0);
+    window = SDL_CreateWindow("VTQuiz",display_width, display_height, 0);
     
     if (!window) {
         SDL_Log("Couldn't create the window: %s", SDL_GetError());  
@@ -67,6 +70,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
     SDL_SetWindowFullscreen(window, true);
 
+    SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y);
+
     renderer = SDL_CreateRenderer(window, NULL);
 
     if (!renderer){
@@ -74,6 +79,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         SDL_Log("Couldn't create the renderer: %s", SDL_GetError());  
         return SDL_APP_FAILURE;    
     }
+
+
 
  
      if (!TTF_Init()) {
@@ -108,6 +115,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
     if (check_buttons(event) == 1 ) return SDL_APP_SUCCESS;
     
+    if (event->type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y);
 
     return SDL_APP_CONTINUE; 
  }
