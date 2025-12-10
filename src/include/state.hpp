@@ -1,5 +1,8 @@
 #pragma once
 
+enum scene_ids{main_menu_scene, game_scene, credits_scene};
+
+
 
 class state{
 
@@ -8,7 +11,7 @@ void load_assets();
 void sort_items();
 void change_scene_id(unsigned char id);
 void render_scene();
-unsigned char current_id = 0;
+unsigned char current_id = -1;
 float mouse_pos_x = 0;
 float mouse_pos_y = 0;
 private:

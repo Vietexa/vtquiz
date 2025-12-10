@@ -1,12 +1,11 @@
 
+#include "include/utils.hpp"
 #define SDL_MAIN_USE_CALLBACKS 1 
 
-#include "SDL3/SDL_misc.h"
-#include "SDL3/SDL_mouse.h"
+
 #include "SDL3/SDL_timer.h"
 #include "SDL3_ttf/SDL_ttf.h"
 #include "SDL3/SDL_init.h"
-#include "SDL3/SDL_keycode.h"
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_video.h>
 #include "SDL3/SDL_events.h"
@@ -26,6 +25,8 @@
 #include "include/gui.hpp"
 #include "include/state.hpp"
 #include "include/utils.hpp"
+#include "include/event.hpp"
+
 
 
  std::unordered_map<std::string,Texture> textures;
@@ -102,47 +103,11 @@ return SDL_APP_CONTINUE;
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
-    SDL_Keycode key = event->key.key;
-
-    if (event->type == SDL_EVENT_QUIT) return SDL_APP_SUCCESS;
-    else if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && event->button.button == SDL_BUTTON_LEFT) 
-    get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y);
-   
-    if(state_ptr->current_id == 0){
-        if (buttons.at("play").wasClicked(*event)) {
-        state_ptr->change_scene_id(1);
-                 } 
-     if (buttons.at("credits").wasClicked(*event)) {
-        state_ptr->change_scene_id(2);
-                 } 
-
-    if (buttons.at("quit").wasClicked(*event)){
-    return SDL_APP_SUCCESS;
-    }
-
-                }
     
-if (state_ptr->current_id == 1){
-        if (buttons.at("gb_menu_g").wasClicked(*event)) {
-        state_ptr->change_scene_id(0);
-                 } 
+   if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN) get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y);
 
-                }
-
-if (state_ptr->current_id == 2){
-        if (buttons.at("gb_menu_c").wasClicked(*event)) {
-        state_ptr->change_scene_id(0);
-                 } 
-
-         if (buttons.at("github").wasClicked(*event)) {
-    SDL_OpenURL("https://github.com/Vietexa/vtquiz/");
-                 } 
-        if (buttons.at("vietexadotcom").wasClicked(*event)) {
-    SDL_OpenURL("https://vietexa.com/");
-                 } 
-
-                }
-       
+    if (check_buttons(event) == 1 ) return SDL_APP_SUCCESS;
+    
 
     return SDL_APP_CONTINUE; 
  }

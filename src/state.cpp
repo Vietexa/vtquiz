@@ -14,6 +14,10 @@ std::vector<std::string> raw_element_ids_s1;
 std::vector<std::string> raw_element_ids_s2;
 std::vector<std::string> raw_element_ids_s3;
 
+std::vector<std::string> button_ids_s1;
+std::vector<std::string> button_ids_s2;
+std::vector<std::string> button_ids_s3;
+
 void render_main_menu(void);
 void render_game(void);
 void render_credits(void);
@@ -60,11 +64,16 @@ void add_button(std::string id, char priority, char scene_id, std::string conten
 if(priority >= 0 && scene_id >= 0){
 std::string element_id = "button|";
     switch(scene_id){
-    case 1: raw_element_ids_s1.push_back(element_id + id);
+    case 1: 
+    raw_element_ids_s1.push_back(element_id + id);
+    button_ids_s1.push_back(id);
     break;
-    case 2: raw_element_ids_s2.push_back(element_id + id);
+    case 2: 
+    raw_element_ids_s2.push_back(element_id + id);
+    button_ids_s2.push_back(id);
     break;
     case 3: raw_element_ids_s3.push_back(element_id + id);
+    button_ids_s3.push_back(id);
     break;}
 }
 
@@ -189,14 +198,14 @@ add_button("quit",0,1, "Quit", 0.45, 0.68);
 // Game
 add_texture("background","./assets/png_files/image.png", 0, 2);
 add_texture("marker", "./assets/png_files/s_marker.png", -1, -1);
-add_button("gb_menu_g",1,2, "Go Back", 0.1, 0.9);
+add_button("back_menu_g",1,2, "Go Back", 0.1, 0.9);
 
 
 // Credits
 add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",0.1, 0.28);
 add_button("github",1,3, "Github", 0.45, 0.38);
 add_button("vietexadotcom",1,3, "vietexa.com", 0.45, 0.48);
-add_button("gb_menu_c",1,3, "Go Back", 0.1, 0.9);
+add_button("back_menu_c",1,3, "Go Back", 0.1, 0.9);
 }
 
 
