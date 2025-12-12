@@ -5,7 +5,6 @@
 #include "include/globals.hpp"
 #include <algorithm>
 #include <string>
-#include <string.h>
 #include <vector>
 
 
@@ -25,7 +24,6 @@ render_credits
 };
 
 
-
 void render_marker(){
 
     float rect_x, rect_y; // the pos of the marker
@@ -41,10 +39,8 @@ void render_marker(){
 
     
     SDL_FRect rect = {rect_x ,rect_y ,rect_w,rect_h};
-    SDL_RenderTexture(renderer,textures.at("marker").m_texture, NULL, &rect);
-
+    SDL_RenderTexture(renderer, textures.at("marker").m_texture, nullptr, &rect);
 }
-
 
 
 // function wrappers
@@ -85,9 +81,9 @@ if(priority >= 0 && scene_id >= 0){
 }
 }
 
-void add_texture(std::string id, std::string path, char priority, char scene_id){
+void add_texture(std::string id, std::string path, char priority, char scene_id, float x, float y, float height, float width, bool has_destination){
 
-textures.try_emplace(id, path, priority, scene_id);
+textures.try_emplace(id, path, priority, scene_id, x, y, width, height, has_destination);
 
 if(priority >= 0 && scene_id >= 0){
     std::string element_id = "texture|";
@@ -174,26 +170,7 @@ void state::change_scene_id(unsigned char id){ // You change the state
    
 }
 
-void state::load_assets(){
 
-// Main Menu
-add_label("welcome_label",2,1,"Welcome to VTQuiz!", 900, 400);
-add_button("play",0,1, "Play", 900, 500);
-add_button("credits",0,1, "Credits", 900, 600);
-add_button("quit",0,1, "Quit", 900, 700);
-
-// Game
-add_texture("background","./assets/png_files/image.png", 0, 2);
-add_texture("marker", "./assets/png_files/s_marker.png", -1, -1);
-add_button("back_menu_g",1,2, "Go Back", 50, 1000);
-
-
-// Credits
-add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",500, 500);
-add_button("github",1,3, "Github", 400, 600);
-add_button("vietexadotcom",1,3, "vietexa.com", 800, 600);
-add_button("back_menu_c",1,3, "Go Back", 50, 1000);
-}
 
 
 void state::render_scene(){ // You render the scene that corresponds to the state
@@ -214,7 +191,7 @@ for (const std::string& element : raw_element_ids_s1) {
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
-    else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
+    else if (element_id == "texture") textures.at(id).draw();
     }
  
 SDL_RenderPresent(renderer);
@@ -233,7 +210,7 @@ for (const std::string& element : raw_element_ids_s2) {
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
-    else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
+    else if (element_id == "texture") textures.at(id).draw();
     }
 
 if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
@@ -253,7 +230,7 @@ for (const std::string& element : raw_element_ids_s3) {
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
-    else if (element_id == "texture") SDL_RenderTexture(renderer,textures.at(id).m_texture, NULL, NULL);
+    else if (element_id == "texture") textures.at(id).draw();
     }
 
 SDL_RenderPresent(renderer);

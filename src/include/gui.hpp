@@ -66,14 +66,26 @@ class Texture{
 
 
 public:
-Texture(std::string path, char priority, char scene_id);
-char m_scene_id;
-char m_priority;
+
+Texture(std::string path, char priority, char scene_id, float pos_x, float pos_y, float width, float height, bool has_destination );
+~Texture();
+
+void draw();
+
+
 SDL_Texture* m_texture;
 
+
+
+char m_scene_id;
+char m_priority;
+
+private:
+bool m_has_destination;
+SDL_FRect m_src;
+SDL_FRect m_dst;
+
 };
-
-
 
 
 extern std::unordered_map<std::string, Texture> textures;

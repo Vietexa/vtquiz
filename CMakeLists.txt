@@ -67,7 +67,7 @@ FetchContent_MakeAvailable(SDL3_ttf)
 
 
 
-add_executable(VTQuiz src/main.cpp src/utils.cpp src/gui.cpp src/state.cpp src/event.cpp)
+add_executable(VTQuiz src/main.cpp src/utils.cpp src/gui.cpp src/state.cpp src/event.cpp src/assets.cpp)
 
 
 target_include_directories(VTQuiz PRIVATE src)

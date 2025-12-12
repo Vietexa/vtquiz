@@ -146,8 +146,24 @@ m_rect = {pos_x,pos_y,(float)m_labelW, (float)m_labelH};
 SDL_RenderTexture(m_renderer,m_label,nullptr,&m_rect);
 }
 
-Texture::Texture(std::string path, char priority, char scene_id) : m_scene_id(scene_id) , m_priority(priority){
+Texture::Texture(std::string path, char priority, char scene_id, float pos_x, float pos_y, float width, float height, bool has_destination) : m_scene_id(scene_id) , m_priority(priority), m_has_destination(has_destination)
+{
 m_texture = IMG_LoadTexture(renderer, path.c_str());
+if (m_has_destination) {m_dst = {pos_x, pos_y, width, height};}
+}
+
+Texture::~Texture(){
+    if (m_texture){
+    SDL_DestroyTexture(m_texture);
+    m_texture = nullptr;
+    } 
+}
+
+
+
+void Texture::draw(){
+    if (m_has_destination) SDL_RenderTexture(renderer, m_texture, nullptr, &m_dst);
+    else {SDL_RenderTexture(renderer, m_texture, nullptr, nullptr);}
 }
 
 
