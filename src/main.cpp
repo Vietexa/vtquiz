@@ -50,18 +50,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;
     }
 
-    SDL_DisplayID display = SDL_GetPrimaryDisplay();
-
-    int display_width = 0;
-    int display_height = 0;
-
-    const SDL_DisplayMode *mode = SDL_GetCurrentDisplayMode(display);
-    if (mode) {
-    display_width  = mode->w;
-    display_height = mode->h;
-    }
-
-    window = SDL_CreateWindow("VTQuiz",display_width, display_height, 0);
+    
+    window = SDL_CreateWindow("VTQuiz",1920, 1080, SDL_WINDOW_HIGH_PIXEL_DENSITY);
     
     if (!window) {
         SDL_Log("Couldn't create the window: %s", SDL_GetError());  
@@ -69,8 +59,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
     }
 
     SDL_SetWindowFullscreen(window, true);
-
-    SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y);
 
     renderer = SDL_CreateRenderer(window, NULL);
 
@@ -80,13 +68,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         return SDL_APP_FAILURE;    
     }
 
+    SDL_SetRenderLogicalPresentation(renderer, 1920, 1080,SDL_LOGICAL_PRESENTATION_STRETCH);
+
+
     const char *name = SDL_GetRendererName(renderer);
 
         if (name) {
     SDL_Log("Renderer backend: %s", name);
         }
 
- 
      if (!TTF_Init()) {
         SDL_Log("Couldn't initialize the TTF %s", SDL_GetError());
         return SDL_APP_FAILURE;

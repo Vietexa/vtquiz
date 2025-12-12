@@ -1,7 +1,6 @@
 #include "include/state.hpp"
 #include "SDL3/SDL_log.h"
 #include "SDL3/SDL_render.h"
-#include "include/utils.hpp"
 #include "include/gui.hpp"
 #include "include/globals.hpp"
 #include <algorithm>
@@ -33,13 +32,11 @@ void render_marker(){
     float rect_w, rect_h ; // its width and height
     rect_w = rect_h = 50;
 
-    float raw_pos_x = state_ptr->mouse_pos_x;
-    float raw_pos_y =state_ptr-> mouse_pos_y;
+    float pos_x = state_ptr->mouse_pos_x;
+    float pos_y = state_ptr->mouse_pos_y;
 
-    norm_to_raw(&raw_pos_x, &raw_pos_y);
-
-    rect_x = raw_pos_x -  rect_w / 2; // draw it in the middle
-    rect_y = raw_pos_y - rect_h / 2;
+    rect_x = pos_x -  rect_w / 2; // draw it in the middle
+    rect_y = pos_y - rect_h / 2;
 
 
     
@@ -53,10 +50,9 @@ void render_marker(){
 // function wrappers
 void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y ){
 
- float raw_pos_x = conv_to_raw_x(x);
- float raw_pos_y = conv_to_raw_y(y);
+ 
 
- buttons.try_emplace(id, renderer, txt_font, content, raw_pos_x, raw_pos_y, 200, 60, scene_id, priority);
+ buttons.try_emplace(id, renderer, txt_font, content, x, y, 200, 60, scene_id, priority);
 if(priority >= 0 && scene_id >= 0){
 std::string element_id = "button|";
     switch(scene_id){
@@ -74,10 +70,8 @@ std::string element_id = "button|";
 
 void add_label(std::string label_id, char priority, char scene_id, const std::string& content, float x, float y){
     
-    float raw_pos_x = conv_to_raw_x(x);
-    float raw_pos_y = conv_to_raw_y(y);
-
-    labels.try_emplace(label_id, renderer, txt_font, content, raw_pos_x, raw_pos_y, scene_id, priority);
+    
+    labels.try_emplace(label_id, renderer, txt_font, content, x, y, scene_id, priority);
 
 if(priority >= 0 && scene_id >= 0){
     std::string element_id = "label|";
@@ -183,22 +177,22 @@ void state::change_scene_id(unsigned char id){ // You change the state
 void state::load_assets(){
 
 // Main Menu
-add_label("welcome_label",2,1,"Welcome to VTQuiz!", 0.45, 0.38);
-add_button("play",0,1, "Play", 0.45, 0.48);
-add_button("credits",0,1, "Credits", 0.45, 0.58);
-add_button("quit",0,1, "Quit", 0.45, 0.68);
+add_label("welcome_label",2,1,"Welcome to VTQuiz!", 900, 400);
+add_button("play",0,1, "Play", 900, 500);
+add_button("credits",0,1, "Credits", 900, 600);
+add_button("quit",0,1, "Quit", 900, 700);
 
 // Game
 add_texture("background","./assets/png_files/image.png", 0, 2);
 add_texture("marker", "./assets/png_files/s_marker.png", -1, -1);
-add_button("back_menu_g",1,2, "Go Back", 0.1, 0.9);
+add_button("back_menu_g",1,2, "Go Back", 50, 1000);
 
 
 // Credits
-add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",0.1, 0.28);
-add_button("github",1,3, "Github", 0.45, 0.38);
-add_button("vietexadotcom",1,3, "vietexa.com", 0.45, 0.48);
-add_button("back_menu_c",1,3, "Go Back", 0.1, 0.9);
+add_label("credits_label", 1, 3, "This game was created by Vietexa and its source code is available on Github under the GPLv3 license.",500, 500);
+add_button("github",1,3, "Github", 400, 600);
+add_button("vietexadotcom",1,3, "vietexa.com", 800, 600);
+add_button("back_menu_c",1,3, "Go Back", 50, 1000);
 }
 
 

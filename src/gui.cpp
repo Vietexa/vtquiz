@@ -3,7 +3,6 @@
 #include "SDL3_image/SDL_image.h"
 #include "include/globals.hpp"
 #include "SDL3/SDL_render.h"
-#include "include/utils.hpp"
 #include <string>
 
 Button::Button(SDL_Renderer* renderer,
@@ -92,26 +91,14 @@ const SDL_FRect& Button::rect() const {
 }
 
 bool Button::contains(float px, float py) const {
-float norm_pos_x = px;
-float norm_pos_y = py;
 
-raw_to_norm(&norm_pos_x, &norm_pos_y);
-
-float rect_pos_x_norm = m_rect.x;
-float rect_pos_y_norm = m_rect.y;
-
-raw_to_norm(&rect_pos_x_norm, &rect_pos_y_norm);
+   
+    float lg_px, lg_py;
+    SDL_RenderCoordinatesFromWindow(renderer, px, py,&lg_px, &lg_py);
 
 
-float rect_pos_end_x_norm = m_rect.x + m_rect.w;
-float rect_pos_end_y_norm =  m_rect.y + m_rect.h;
-
-raw_to_norm(&rect_pos_end_x_norm, &rect_pos_end_y_norm);
-
-
-
-    return norm_pos_x >= rect_pos_x_norm && norm_pos_x <= rect_pos_end_x_norm &&
-           norm_pos_y >= rect_pos_y_norm && norm_pos_y <= rect_pos_end_y_norm;
+    return lg_px >= m_rect.x && lg_px <= m_rect.x + m_rect.w &&
+           lg_py >= m_rect.y && lg_py <= m_rect.y + m_rect.h;
 }
 
 
