@@ -11,10 +11,15 @@ int check_buttons(SDL_Event *event){
     
     switch(state_ptr->current_id){
 
-        case main_menu_scene:
+    case main_menu_scene:
        
-    if (buttons.at("play").wasClicked(*event)) {
-        state_ptr->change_scene_id(game_scene);
+    if (buttons.at("play_online").wasClicked(*event)) {
+        state_ptr->change_scene_id(online_game_scene);
+        return 0;
+    }
+
+    if (buttons.at("play_offline").wasClicked(*event)) {
+        state_ptr->change_scene_id(offline_game_scene);
         return 0;
     }
 
@@ -29,18 +34,32 @@ int check_buttons(SDL_Event *event){
 
     break;
 
-    case game_scene:
+    case online_game_scene:
 
-    if (buttons.at("back_menu_g").wasClicked(*event)){ 
+    if (buttons.at("back_menu").wasClicked(*event)){ 
     state_ptr->change_scene_id(main_menu_scene);
     return 0;
     }
 
     break;
     
+
+
+    case offline_game_scene:
+
+
+    if (buttons.at("back_menu").wasClicked(*event)){ 
+    state_ptr->change_scene_id(main_menu_scene);
+    return 0;
+    }
+
+    break;
+
+
+
     case credits_scene:
 
-   if (buttons.at("back_menu_c").wasClicked(*event)) {state_ptr->change_scene_id(main_menu_scene);
+   if (buttons.at("back_menu").wasClicked(*event)) {state_ptr->change_scene_id(main_menu_scene);
     return 0;
    }
    if (buttons.at("github").wasClicked(*event)) {

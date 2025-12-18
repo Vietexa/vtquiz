@@ -85,17 +85,17 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
         
      txt_font = TTF_OpenFont("assets/fonts/default.ttf", 24);
      if (!txt_font) {
-    SDL_Log("Couldn't load font: %s", SDL_GetError());
-    return SDL_APP_FAILURE;
+        SDL_Log("Couldn't load font: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
 
-}
+    }
 
 
-state_ptr = new state;
-state_ptr->load_assets();
-state_ptr->sort_items();
+    state_ptr = new state;
+    state_ptr->load_assets();
+    state_ptr->sort_items();
 
-state_ptr->change_scene_id(0);
+    state_ptr->change_scene_id(main_menu_scene);
 
 
 return SDL_APP_CONTINUE; 

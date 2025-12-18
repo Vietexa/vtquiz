@@ -8,18 +8,21 @@
 #include <vector>
 
 
+std::vector<std::string> raw_element_ids_s0;
 std::vector<std::string> raw_element_ids_s1;
 std::vector<std::string> raw_element_ids_s2;
 std::vector<std::string> raw_element_ids_s3;
 
 void render_main_menu(void);
-void render_game(void);
+void render_offline_game(void);
+void render_online_game(void);
 void render_credits(void);
 
 
-void (*scene_ptr[4])(void){
+void (*scene_ptr[5])(void){
 render_main_menu,
-render_game,
+render_online_game,
+render_offline_game,
 render_credits
 };
 
@@ -49,34 +52,44 @@ void add_button(std::string id, char priority, char scene_id, std::string conten
  
 
  buttons.try_emplace(id, renderer, txt_font, content, x, y, 200, 60, scene_id, priority);
-if(priority >= 0 && scene_id >= 0){
-std::string element_id = "button|";
+    if(priority >= 0 && scene_id >= 0){
+    std::string element_id = "button|";
     switch(scene_id){
-    case 1: 
+    case main_menu_scene:
+    raw_element_ids_s0.push_back(element_id + id);
+    break;
+    case online_game_scene: 
     raw_element_ids_s1.push_back(element_id + id);
     break;
-    case 2: 
+    case offline_game_scene: 
     raw_element_ids_s2.push_back(element_id + id);
     break;
-    case 3: raw_element_ids_s3.push_back(element_id + id);
+    case credits_scene:
+     raw_element_ids_s3.push_back(element_id + id);
     break;}
 }
 
 }
 
-void add_label(std::string label_id, char priority, char scene_id, const std::string& content, float x, float y){
+void add_label(std::string id, char priority, char scene_id, const std::string& content, float x, float y){
     
     
-    labels.try_emplace(label_id, renderer, txt_font, content, x, y, scene_id, priority);
+    labels.try_emplace(id, renderer, txt_font, content, x, y, scene_id, priority);
 
-if(priority >= 0 && scene_id >= 0){
+    if(priority >= 0 && scene_id >= 0){
     std::string element_id = "label|";
     switch(scene_id){
-    case 1: raw_element_ids_s1.push_back(element_id + label_id);
+    case main_menu_scene:
+    raw_element_ids_s0.push_back(element_id + id);
     break;
-    case 2: raw_element_ids_s2.push_back(element_id + label_id);
+    case online_game_scene: 
+    raw_element_ids_s1.push_back(element_id + id);
     break;
-    case 3: raw_element_ids_s3.push_back(element_id + label_id);
+    case offline_game_scene: 
+    raw_element_ids_s2.push_back(element_id + id);
+    break;
+    case credits_scene: 
+    raw_element_ids_s3.push_back(element_id + id);
     break;}
 }
 }
@@ -88,11 +101,17 @@ textures.try_emplace(id, path, priority, scene_id, x, y, width, height, has_dest
 if(priority >= 0 && scene_id >= 0){
     std::string element_id = "texture|";
     switch(scene_id){
-    case 1: raw_element_ids_s1.push_back(element_id + id);
+    case main_menu_scene:
+    raw_element_ids_s0.push_back(element_id + id);
     break;
-    case 2: raw_element_ids_s2.push_back(element_id + id);
+    case online_game_scene: 
+    raw_element_ids_s1.push_back(element_id + id);
     break;
-    case 3: raw_element_ids_s3.push_back(element_id + id);
+    case offline_game_scene: 
+    raw_element_ids_s2.push_back(element_id + id);
+    break;
+    case credits_scene: 
+    raw_element_ids_s3.push_back(element_id + id);
     break;}
 }
 }
@@ -145,6 +164,10 @@ return a_priority < b_priority;
  };
 
     
+if (!raw_element_ids_s0.empty()){
+std::sort(raw_element_ids_s0.begin(), raw_element_ids_s0.end(), compare_elements);
+}
+
 if (!raw_element_ids_s1.empty()){
 std::sort(raw_element_ids_s1.begin(), raw_element_ids_s1.end(), compare_elements);
 }
@@ -156,6 +179,7 @@ std::sort(raw_element_ids_s2.begin(), raw_element_ids_s2.end(), compare_elements
 if (!raw_element_ids_s3.empty()){
 std::sort(raw_element_ids_s3.begin(), raw_element_ids_s3.end(), compare_elements);
 }
+
      
 }
 
@@ -186,7 +210,7 @@ void render_main_menu(){
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
-for (const std::string& element : raw_element_ids_s1) {
+for (const std::string& element : raw_element_ids_s0) {
     std::string element_id = element.substr(0, element.find("|"));
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
@@ -199,7 +223,28 @@ SDL_RenderPresent(renderer);
 
 
 
-void render_game(){
+void render_online_game(){
+
+SDL_SetRenderDrawColor(renderer,0,0,0, 255);
+SDL_RenderClear(renderer);
+
+
+for (const std::string& element : raw_element_ids_s1) {
+    std::string element_id = element.substr(0, element.find("|"));
+    std::string id = element.substr(element.find("|") + 1);
+    if (element_id == "button") buttons.at(id).draw();
+    else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "texture") textures.at(id).draw();
+    }
+
+if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
+
+SDL_RenderPresent(renderer);
+
+ }
+
+
+void render_offline_game(){
 
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
@@ -219,7 +264,7 @@ SDL_RenderPresent(renderer);
 
  }
 
-
+ 
 
  void render_credits(){
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
