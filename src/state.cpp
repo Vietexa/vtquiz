@@ -46,6 +46,27 @@ void render_marker(){
 }
 
 
+void draw_debug_rect(){
+
+
+    float rect_x, rect_y; 
+    
+    rect_x = state_ptr->mpos_debug_x - state_ptr->debug_rect_w / 2; 
+    rect_y = state_ptr->mpos_debug_y - state_ptr->debug_rect_h / 2; 
+
+    
+    SDL_FRect rect = {rect_x ,rect_y ,state_ptr->debug_rect_w,state_ptr->debug_rect_h};
+   
+   SDL_SetRenderDrawColor(renderer,240,240,240, 255);
+   SDL_RenderFillRect(renderer, &rect);
+   SDL_RenderRect(renderer, &rect);
+
+ }
+
+
+
+
+
 // function wrappers
 void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y ){
 
@@ -259,6 +280,7 @@ for (const std::string& element : raw_element_ids_s2) {
     }
 
 if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
+if (state_ptr->mpos_debug_x != 0 && state_ptr->mpos_debug_y != 0) draw_debug_rect();
 
 SDL_RenderPresent(renderer);
 
@@ -281,3 +303,10 @@ for (const std::string& element : raw_element_ids_s3) {
 SDL_RenderPresent(renderer);
 
  }
+
+ 
+
+
+
+
+

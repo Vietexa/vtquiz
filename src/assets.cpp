@@ -6,7 +6,7 @@
 
 
 void state::load_assets(){
-const float first_btn_s0_y = 400;
+const float first_btn_s0_y = 450;
 
 // Main Menu
 add_label("welcome_label",2,main_menu_scene,"Welcome to VTQuiz!", 900, first_btn_s0_y);

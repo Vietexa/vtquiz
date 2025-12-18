@@ -1,4 +1,5 @@
 
+#include "SDL3/SDL_mouse.h"
 #include "include/utils.hpp"
 #define SDL_MAIN_USE_CALLBACKS 1 
 
@@ -105,8 +106,9 @@ return SDL_APP_CONTINUE;
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
     
-   if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN) get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y);
-
+   if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN){
+   if(event->button.button == SDL_BUTTON_LEFT) get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y); 
+   }
     if (check_buttons(event) == 1 ) return SDL_APP_SUCCESS;
     
     if (event->type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y);
