@@ -58,19 +58,29 @@ int check_buttons(SDL_Event *event){
     }
 
     if(event->type == SDL_EVENT_KEY_DOWN){
-        if (event->key.scancode == SDL_SCANCODE_W){
+
+        switch(event->key.scancode){
+
+            case SDL_SCANCODE_W:
             state_ptr->debug_rect_h += 50;
-            state_ptr->debug_rect_w += 50;
-            // SDL_Log("The size has been increased. Current size: w:%f h:%f\n", state_ptr->debug_rect_w, state_ptr->debug_rect_h);
-        }
-        else if (event->key.scancode == SDL_SCANCODE_S){
+            break;
 
+            case SDL_SCANCODE_S:
             state_ptr->debug_rect_h -= 50;
+            break;
+
+            case SDL_SCANCODE_A:
+            state_ptr->debug_rect_w += 50;
+            break;
+
+            case SDL_SCANCODE_D:
             state_ptr->debug_rect_w -= 50;
-            //SDL_Log("The size has been decreased. Current size: w:%f h:%f\n", state_ptr->debug_rect_w, state_ptr->debug_rect_h);
+            break;
 
-
+            default: break;
         }
+
+        
     }
 
 
