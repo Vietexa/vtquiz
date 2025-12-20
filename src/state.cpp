@@ -51,6 +51,7 @@ void draw_debug_rect(){
 
     float rect_x, rect_y; 
     
+    
     rect_x = state_ptr->mpos_debug_x - state_ptr->debug_rect_w / 2; 
     rect_y = state_ptr->mpos_debug_y - state_ptr->debug_rect_h / 2; 
 

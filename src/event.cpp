@@ -62,19 +62,19 @@ int check_buttons(SDL_Event *event){
         switch(event->key.scancode){
 
             case SDL_SCANCODE_W:
-            state_ptr->debug_rect_h += 50;
+            state_ptr->debug_buf_h += 50;
             break;
 
             case SDL_SCANCODE_S:
-            state_ptr->debug_rect_h -= 50;
+            state_ptr->debug_buf_h -= 50;
             break;
 
             case SDL_SCANCODE_A:
-            state_ptr->debug_rect_w += 50;
+            state_ptr->debug_buf_w += 50;
             break;
 
             case SDL_SCANCODE_D:
-            state_ptr->debug_rect_w -= 50;
+            state_ptr->debug_buf_w -= 50;
             break;
 
             default: break;
@@ -88,6 +88,8 @@ int check_buttons(SDL_Event *event){
         if (event->button.button == SDL_BUTTON_RIGHT ) {
             get_mpos_norm(renderer, &state_ptr->mpos_debug_x, &state_ptr->mpos_debug_y);
             SDL_Log("x:%f y:%f w:%f h:%f\n", state_ptr->mpos_debug_x, state_ptr->mpos_debug_y , state_ptr->debug_rect_w, state_ptr->debug_rect_h);
+            state_ptr->debug_rect_w = state_ptr->debug_buf_w;
+            state_ptr->debug_rect_h = state_ptr->debug_buf_h;
         }
     }
 

@@ -23,6 +23,8 @@ float mouse_pos_y = 0;
 
 float mpos_debug_x;
 float mpos_debug_y;
+float debug_buf_w;
+float debug_buf_h;
 float debug_rect_w = 50;
 float debug_rect_h = 50;
 private:
