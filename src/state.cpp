@@ -69,11 +69,11 @@ void draw_debug_rect(){
 
 
 // function wrappers
-void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y ){
+void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y, float width, float height ){
 
  
 
- buttons.try_emplace(id, renderer, txt_font, content, x, y, 200, 60, scene_id, priority);
+ buttons.try_emplace(id, renderer, txt_font, content, x, y, width, height, scene_id, priority);
     if(priority >= 0 && scene_id >= 0){
     std::string element_id = "button|";
     switch(scene_id){
@@ -93,10 +93,10 @@ void add_button(std::string id, char priority, char scene_id, std::string conten
 
 }
 
-void add_label(std::string id, char priority, char scene_id, const std::string& content, float x, float y){
+void add_label(std::string id, char priority, char scene_id, const std::string& content, float x, float y, float width, float height){
     
     
-    labels.try_emplace(id, renderer, txt_font, content, x, y, scene_id, priority);
+    labels.try_emplace(id, renderer, txt_font, content, x, y, width, height, scene_id, priority);
 
     if(priority >= 0 && scene_id >= 0){
     std::string element_id = "label|";

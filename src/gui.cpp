@@ -102,8 +102,10 @@ bool Button::contains(float px, float py) const {
 }
 
 
-Label::Label(SDL_Renderer* renderer ,TTF_Font* font, const std::string& text, float x, float y, char scene_id ,char priority)
-: m_renderer(renderer), m_font(font), m_scene_id(scene_id), m_priority(priority){
+
+
+Label::Label(SDL_Renderer* renderer ,TTF_Font* font, const std::string& text, float x, float y, float width, float height, char scene_id ,char priority)
+: m_renderer(renderer), m_font(font), m_scene_id(scene_id), m_priority(priority), m_width_mul(width), m_height_mul(height){
 pos_x = x;
 pos_y = y;
 setText(text);
@@ -111,6 +113,7 @@ setText(text);
 
 Label::~Label(){
      if (m_label) SDL_DestroyTexture(m_label);
+     m_label = nullptr;
 }
 
 
@@ -122,12 +125,14 @@ void Label::setText(const std::string& text) {
 
     SDL_Color white{255,255,255,255};
     SDL_Surface* surf = TTF_RenderText_Blended(m_font, text.c_str() , text.size(), white);
+    
     if (!surf) {
         SDL_Log("TTF_RenderText_Blended failed: %s", SDL_GetError());
         return;
     }
 
     m_label = SDL_CreateTextureFromSurface(m_renderer, surf);
+
     if (!m_label) {
         SDL_Log("SDL_CreateTextureFromSurface failed: %s", SDL_GetError());
         SDL_DestroySurface(surf);
@@ -142,7 +147,7 @@ void Label::setText(const std::string& text) {
 
 void Label::draw(){
 
-m_rect = {pos_x,pos_y,(float)m_labelW, (float)m_labelH};
+m_rect = {pos_x,pos_y,(float)m_labelW * m_width_mul, (float)m_labelH * m_height_mul};
 SDL_RenderTexture(m_renderer,m_label,nullptr,&m_rect);
 }
 

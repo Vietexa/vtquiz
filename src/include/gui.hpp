@@ -41,7 +41,7 @@ private:
 class Label{
 public:
 
-Label(SDL_Renderer* renderer,TTF_Font* font, const std::string& text,float x, float y, char scene_id ,char priority);
+Label(SDL_Renderer* renderer,TTF_Font* font, const std::string& text,float x, float y, float width, float height, char scene_id ,char priority);
 
 ~Label();
 
@@ -56,6 +56,7 @@ SDL_Renderer* m_renderer = nullptr;
 TTF_Font*  m_font = nullptr;
 SDL_FRect m_rect{};
 SDL_Texture*  m_label = nullptr;
+float m_width_mul = 1, m_height_mul = 1;
 int m_labelW = 0, m_labelH = 0;
 float pos_x = 0, pos_y = 0;
 
