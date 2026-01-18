@@ -5,6 +5,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "")  # provide a json file with 
 
 project(VTQuiz LANGUAGES C CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+
 # Include the fetch content submodule and use it to fetch the dependencies
 include(FetchContent)
 

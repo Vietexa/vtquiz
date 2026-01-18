@@ -3,7 +3,7 @@
 #include "include/utils.hpp"
 #define SDL_MAIN_USE_CALLBACKS 1 
 
-
+#include <format>
 #include "SDL3/SDL_timer.h"
 #include "SDL3_ttf/SDL_ttf.h"
 #include "SDL3/SDL_init.h"
@@ -29,7 +29,7 @@
 #include "include/event.hpp"
 
 #define TARGET_FPS 60
-#define FRAME_TIME (1000 / TARGET_FPS) // ms per frame
+#define FRAME_TIME (1000 / TARGET_FPS)
 
 
  std::unordered_map<std::string,Texture> textures;
@@ -143,7 +143,9 @@ if (now - lastFpsTime >= 1000) {
     frames = 0;
     lastFpsTime = now;
 
-    SDL_Log("FPS: %.1f", fps);
+    std::string fpsStr = std::format("{:.2f}", fps);
+
+    labels.at("fps_counter").setText(fpsStr);
 }
 
     frameTime = SDL_GetTicks() - frameStart;
@@ -154,6 +156,7 @@ if (now - lastFpsTime >= 1000) {
 
     
    
+    
     
 
     return SDL_APP_CONTINUE;
