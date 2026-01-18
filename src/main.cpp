@@ -28,6 +28,8 @@
 #include "include/utils.hpp"
 #include "include/event.hpp"
 
+#define TARGET_FPS 60
+#define FRAME_TIME (1000 / TARGET_FPS) // ms per frame
 
 
  std::unordered_map<std::string,Texture> textures;
@@ -42,6 +44,7 @@
 
  int window_size_x = 0;
  int window_size_y = 0;
+
 
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
@@ -118,11 +121,40 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
 
 SDL_AppResult SDL_AppIterate(void *appstate){  
-    
-  
-   state_ptr->render_scene();
    
-    SDL_Delay(10);
+    Uint32 frameStart;
+    Uint32 frameTime;
+
+    static Uint32 lastFpsTime = 0;
+    static int frames = 0;
+    static float fps = 0.0f;
+
+    frameStart = SDL_GetTicks();
+    
+
+    state_ptr->render_scene();
+
+    Uint32 now = SDL_GetTicks();
+
+     frames++;
+  
+if (now - lastFpsTime >= 1000) {
+    fps = frames * 1000.0f / (now - lastFpsTime);
+    frames = 0;
+    lastFpsTime = now;
+
+    SDL_Log("FPS: %.1f", fps);
+}
+
+    frameTime = SDL_GetTicks() - frameStart;
+
+    if (frameTime < FRAME_TIME) {
+        SDL_Delay(FRAME_TIME - frameTime);
+    }
+
+    
+   
+    
 
     return SDL_APP_CONTINUE;
 }
