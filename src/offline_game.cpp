@@ -32,7 +32,7 @@ bool offline_game_handler::check_answer_pos(int index){
     SDL_RenderCoordinatesFromWindow(renderer, registered_pos_x , registered_pos_y, &lg_r_pos_x, &lg_r_pos_y);
     
     return lg_r_pos_x >= ans_x_pos && lg_r_pos_x <= ans_x_pos + ans_width &&
-           lg_r_pos_y >= ans_y_pos && lg_r_pos_y <= lg_r_pos_y + ans_height;
+           lg_r_pos_y >= ans_y_pos && lg_r_pos_y <= ans_y_pos + ans_height;
    
 }
 
