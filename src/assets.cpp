@@ -46,8 +46,10 @@ add_label("info",2,online_game_scene,"Coming soon!", 1, 1);
 add_label("fps_counter",2,offline_game_scene,"FPS", 1, 1);
 add_texture("background","./assets/png_files/image.png", 0, offline_game_scene,0,0,0,0,false);
 add_texture("marker", "./assets/png_files/s_marker.png", -1, -1,0,0,0,0,false);
-add_button("back_menu",1,offline_game_scene, "Go Back", 50, 1000);
-
+add_button("back_menu",1,offline_game_scene, "Main Menu", 50, 1000);
+add_button("finish",1,offline_game_scene, "Finish", 1700, 1000);
+add_button("continue",1,offline_game_scene, "Continue", 1400, 1000);
+add_button("previous_question",1,offline_game_scene, "Previous Question", 1150, 1000);
 
 // Credits
 add_label("fps_counter",2,credits_scene,"FPS", 1, 1);

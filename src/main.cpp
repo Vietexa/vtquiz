@@ -41,9 +41,12 @@
  SDL_Renderer* renderer = nullptr;
  TTF_Font * txt_font = nullptr;
  state* state_ptr = nullptr;
+ offline_game_handler* offline_game_handler_ptr = nullptr;
 
  int window_size_x = 0;
  int window_size_y = 0;
+
+ 
 
 
 
@@ -134,6 +137,7 @@ SDL_AppResult SDL_AppIterate(void *appstate){
 
     state_ptr->render_scene();
 
+
     Uint32 now = SDL_GetTicks();
 
      frames++;
@@ -154,9 +158,6 @@ if (now - lastFpsTime >= 1000) {
         SDL_Delay(FRAME_TIME - frameTime);
     }
 
-    
-   
-    
     
 
     return SDL_APP_CONTINUE;

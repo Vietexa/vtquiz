@@ -6,6 +6,7 @@
 #include "SDL3/SDL_scancode.h"
 #include "include/globals.hpp"
 #include "include/gui.hpp"
+#include "include/offline_game.hpp"
 #include "include/state.hpp"
 #include "include/utils.hpp"
 
@@ -24,6 +25,27 @@ int check_buttons(SDL_Event *event){
 
     if (buttons.at("play_offline").wasClicked(*event)) {
         state_ptr->change_scene_id(offline_game_scene);
+        offline_game_handler_ptr = new offline_game_handler;
+        
+
+        float pos_x = 200;
+        float pos_y = 200;
+
+        offline_game_handler_ptr->answers[0] = {500,500,500,500};
+    
+        for (int i = 1; i < 5; i++){
+            offline_game_handler_ptr->answers[i] = {pos_x, pos_y, 200, 200};
+            pos_x += 100;
+            pos_y += 100;
+            SDL_Log("answear coordinates: x: %f y:%f", pos_x, pos_y);
+        }
+
+        for (int i = 0; i < offline_game_handler_ptr->answers.size(); i++){
+
+            offline_game_handler_ptr->registered_positions[i] = {0,0};
+
+        }
+
         return 0;
     }
 
@@ -53,9 +75,62 @@ int check_buttons(SDL_Event *event){
 
 
     if (buttons.at("back_menu").wasClicked(*event)){ 
+        
+        if (offline_game_handler_ptr){
+            delete offline_game_handler_ptr;
+            offline_game_handler_ptr = nullptr;
+        }
+
+
     state_ptr->change_scene_id(main_menu_scene);
     return 0;
+
     }
+
+    
+    if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress){
+        if(event->button.button == SDL_BUTTON_LEFT && state_ptr->mouse_pos_y < 980){
+
+            offline_game_handler_ptr->saved_mouse_pos_x = state_ptr->mouse_pos_x;
+            offline_game_handler_ptr->saved_mouse_pos_y = state_ptr->mouse_pos_y;
+
+            offline_game_handler_ptr->register_pos();
+        }
+    }
+
+     if (buttons.at("continue").wasClicked(*event)){
+
+        if(offline_game_handler_ptr->index < offline_game_handler_ptr->answers.size()){
+            offline_game_handler_ptr->index += 1;
+            SDL_Log("Index: %d\n", offline_game_handler_ptr->index);
+        } 
+        
+     }
+
+     if (buttons.at("previous_question").wasClicked(*event)){ 
+       
+        if(offline_game_handler_ptr->index >= 0){
+            offline_game_handler_ptr->index -= 1;
+            SDL_Log("Index: %d\n", offline_game_handler_ptr->index);
+            }      
+     
+     }
+
+     if (buttons.at("finish").wasClicked(*event) && offline_game_handler_ptr->is_round_in_progress){ 
+        for (int i = 0; i < offline_game_handler_ptr->answers.size(); i++){
+            if (i <= offline_game_handler_ptr->registered_positions.size()){
+                if (offline_game_handler_ptr->check_answer_pos(i)) {
+                    offline_game_handler_ptr->correct_answers += 1;
+                }
+                else{
+                    offline_game_handler_ptr->wrong_answers += 1;
+                }
+                SDL_Log("Correct answers: %d, Wrong answers: %d",offline_game_handler_ptr->correct_answers, offline_game_handler_ptr->wrong_answers);
+                
+            }
+        }
+        offline_game_handler_ptr->is_round_in_progress = false;
+     }
 
     if(event->type == SDL_EVENT_KEY_DOWN){
 

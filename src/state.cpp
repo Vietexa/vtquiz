@@ -283,6 +283,9 @@ for (const std::string& element : raw_element_ids_s2) {
 if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
 if (state_ptr->mpos_debug_x != 0 && state_ptr->mpos_debug_y != 0) draw_debug_rect();
 
+SDL_FRect test_rectangle {500, 500, 500, 500};
+SDL_RenderFillRect(renderer, &test_rectangle);
+
 SDL_RenderPresent(renderer);
 
  }
