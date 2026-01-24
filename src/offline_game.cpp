@@ -2,7 +2,6 @@
 #include "SDL3/SDL_log.h"
 #include "include/globals.hpp"
 #include "include/state.hpp"
-#include <strings.h>
 
 
 
