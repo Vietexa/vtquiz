@@ -58,7 +58,7 @@ void draw_debug_rect(){
     
     SDL_FRect rect = {rect_x ,rect_y ,state_ptr->debug_rect_w,state_ptr->debug_rect_h};
    
-   SDL_SetRenderDrawColor(renderer,240,240,240, 255);
+   
    SDL_RenderFillRect(renderer, &rect);
    SDL_RenderRect(renderer, &rect);
 
@@ -70,8 +70,6 @@ void draw_debug_rect(){
 
 // function wrappers
 void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y, float width, float height ){
-
- 
 
  buttons.try_emplace(id, renderer, txt_font, content, x, y, width, height, scene_id, priority);
     if(priority >= 0 && scene_id >= 0){
@@ -94,7 +92,6 @@ void add_button(std::string id, char priority, char scene_id, std::string conten
 }
 
 void add_label(std::string id, char priority, char scene_id, const std::string& content, float x, float y, float width, float height){
-    
     
     labels.try_emplace(id, renderer, txt_font, content, x, y, width, height, scene_id, priority);
 
@@ -138,6 +135,28 @@ if(priority >= 0 && scene_id >= 0){
 }
 }
 
+void add_rectangle(std::string id, char priority, char scene_id,  float x, float y, float width, float height){
+    
+    rectangles.try_emplace(id, priority, scene_id, x, y, width, height);
+
+    if(priority >= 0 && scene_id >= 0){
+    std::string element_id = "rectangle|";
+    switch(scene_id){
+    case main_menu_scene:
+    raw_element_ids_s0.push_back(element_id + id);
+    break;
+    case online_game_scene: 
+    raw_element_ids_s1.push_back(element_id + id);
+    break;
+    case offline_game_scene: 
+    raw_element_ids_s2.push_back(element_id + id);
+    break;
+    case credits_scene: 
+    raw_element_ids_s3.push_back(element_id + id);
+    break;}
+}
+}
+
 void state::sort_items() {
     
  auto compare_elements = [&](const std::string& a, const std::string& b) -> bool {
@@ -164,6 +183,10 @@ else if (a_element_id == "texture") {
 const Texture& A = textures.at(a_id);
 a_priority = A.m_priority;
 }
+else if (a_element_id == "rectangle") {
+const Rectangle& A = rectangles.at(a_id);
+a_priority = A.m_priority;
+}
 else {return false;}
 
  
@@ -177,6 +200,10 @@ b_priority = B.m_priority;
 }
 else if (b_element_id == "texture") {
 const Texture& B = textures.at(b_id);
+b_priority = B.m_priority;
+}
+else if (b_element_id == "rectangle") {
+const Rectangle& B = rectangles.at(b_id);
 b_priority = B.m_priority;
 }
 else {return false;}
@@ -237,7 +264,9 @@ for (const std::string& element : raw_element_ids_s0) {
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
     else if (element_id == "texture") textures.at(id).draw();
+    
     }
  
 SDL_RenderPresent(renderer);
@@ -256,7 +285,9 @@ for (const std::string& element : raw_element_ids_s1) {
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
     else if (element_id == "texture") textures.at(id).draw();
+  
     }
 
 if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
@@ -272,19 +303,20 @@ SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
 
+
+
 for (const std::string& element : raw_element_ids_s2) {
     std::string element_id = element.substr(0, element.find("|"));
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
     else if (element_id == "texture") textures.at(id).draw();
+    
     }
 
 if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
 if (state_ptr->mpos_debug_x != 0 && state_ptr->mpos_debug_y != 0) draw_debug_rect();
-
-SDL_FRect test_rectangle {500, 500, 500, 500};
-SDL_RenderFillRect(renderer, &test_rectangle);
 
 SDL_RenderPresent(renderer);
 
@@ -301,6 +333,7 @@ for (const std::string& element : raw_element_ids_s3) {
     std::string id = element.substr(element.find("|") + 1);
     if (element_id == "button") buttons.at(id).draw();
     else if (element_id == "label") labels.at(id).draw();
+    else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
     else if (element_id == "texture") textures.at(id).draw();
     }
 

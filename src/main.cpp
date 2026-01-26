@@ -35,7 +35,8 @@
  std::unordered_map<std::string,Texture> textures;
  std::unordered_map<std::string, Button> buttons;
  std::unordered_map<std::string, Label> labels;
-
+ std::unordered_map<std::string, Rectangle> rectangles;
+ 
 
  SDL_Window* window = nullptr;
  SDL_Renderer* renderer = nullptr;

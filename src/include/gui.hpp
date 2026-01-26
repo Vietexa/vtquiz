@@ -1,9 +1,11 @@
 #pragma once
+#include "SDL3/SDL_rect.h"
 #include "SDL3/SDL_render.h"
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <unordered_map>
+
 
 class Button {
 public:
@@ -71,12 +73,11 @@ public:
 Texture(std::string path, char priority, char scene_id, float pos_x, float pos_y, float width, float height, bool has_destination );
 ~Texture();
 
-void draw();
 
 
 SDL_Texture* m_texture;
 
-
+void draw();
 
 char m_scene_id;
 char m_priority;
@@ -88,8 +89,27 @@ SDL_FRect m_dst;
 
 };
 
+class Rectangle{
+
+
+
+public:
+
+Rectangle(char priority, char scene_id, float pos_x, float pos_y, float width, float height);
+
+void draw_border(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+char m_scene_id;
+char m_priority;
+
+SDL_FRect m_rect;
+
+
+};
+
 
 extern std::unordered_map<std::string, Texture> textures;
 extern std::unordered_map<std::string, Button> buttons;
 extern std::unordered_map<std::string, Label> labels;
+extern std::unordered_map<std::string, Rectangle> rectangles;
 
