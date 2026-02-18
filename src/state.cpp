@@ -53,9 +53,8 @@ void draw_debug_rect(){
     
     SDL_FRect rect = {rect_x ,rect_y ,state_ptr->debug_rect_w,state_ptr->debug_rect_h};
    
-   
-   SDL_RenderFillRect(renderer, &rect);
-   SDL_RenderRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer,0,200,100, 255);
+    SDL_RenderFillRect(renderer, &rect);
 
  }
 
@@ -108,12 +107,15 @@ void add_label(std::string id, char priority, char scene_id, const std::string& 
 }
 }
 
+// gui function wrappers
 void add_texture(std::string id, std::string path, char priority, char scene_id, float x, float y, float height, float width, bool has_destination){
 
+// add it to the unordered map with the following params
 textures.try_emplace(id, path, priority, scene_id, x, y, width, height, has_destination);
 
+//add it to its designated scene based on scene_id
 if(priority >= 0 && scene_id >= 0){
-    std::string element_id = "texture|";
+    std::string element_id = "texture|"; //when adding it, also include "texture|" as a tag to be used when it gets sorted
     switch(scene_id){
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
@@ -152,7 +154,8 @@ void add_rectangle(std::string id, char priority, char scene_id,  float x, float
 }
 }
 
-void state::sort_items() {
+//Sort each item by priority
+void state::sort_items() { 
     
  auto compare_elements = [&](const std::string& a, const std::string& b) -> bool {
         
@@ -207,7 +210,7 @@ return a_priority < b_priority;
 
  };
 
-    
+//sorth each scene with the logic from the lambda function (compare_elements)
 if (!raw_element_ids_s0.empty()){
 std::sort(raw_element_ids_s0.begin(), raw_element_ids_s0.end(), compare_elements);
 }
@@ -260,17 +263,19 @@ void state::change_scene_id(unsigned char id){
 
 
 
-
+// call the function pointer to render the scene
 void state::render_scene(){ 
 scene_ptr();
  }
 
 
+// Render the scenes
 void render_main_menu(){
 
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
+// i know, it's redundant, this is certainly not the best design
 for (const std::string& element : raw_element_ids_s0) {
     std::string element_id = element.substr(0, element.find("|"));
     std::string id = element.substr(element.find("|") + 1);
@@ -328,7 +333,10 @@ for (const std::string& element : raw_element_ids_s2) {
     }
 
 if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
+
 if (state_ptr->mpos_debug_x != 0 && state_ptr->mpos_debug_y != 0) draw_debug_rect();
+
+    
 
 SDL_RenderPresent(renderer);
 

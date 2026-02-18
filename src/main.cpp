@@ -31,7 +31,9 @@
 #define TARGET_FPS 60
 #define FRAME_TIME (1000 / TARGET_FPS)
 
+// global variables
 
+// gui element containers
  std::unordered_map<std::string,Texture> textures;
  std::unordered_map<std::string, Button> buttons;
  std::unordered_map<std::string, Label> labels;
@@ -103,7 +105,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
     state_ptr->load_assets();
     state_ptr->sort_items();
 
-    state_ptr->change_scene_id(main_menu_scene);
+    state_ptr->change_scene_id(main_menu_scene); // make it start at the main menu
 
 
 return SDL_APP_CONTINUE; 
@@ -116,7 +118,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
    if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN){
    if(event->button.button == SDL_BUTTON_LEFT) get_mpos_norm(renderer, &state_ptr->mouse_pos_x, &state_ptr->mouse_pos_y); 
    }
-    if (check_buttons(event) == 1 ) return SDL_APP_SUCCESS;
+    if (check_event(event) == 1 ) return SDL_APP_SUCCESS;
     
     if (event->type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y);
 

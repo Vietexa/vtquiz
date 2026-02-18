@@ -6,6 +6,7 @@
 #include "SDL3/SDL_render.h"
 #include <string>
 
+// GUI element logic
 Button::Button(SDL_Renderer* renderer,
                TTF_Font* font,
                const std::string& text,

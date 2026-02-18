@@ -3,6 +3,7 @@
 #include "include/globals.hpp"
 #include "include/state.hpp"
 
+//Offline game scene logic
 
 
 bool offline_game_handler::check_answer_pos(int index){

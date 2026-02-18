@@ -10,8 +10,17 @@
 #include "include/state.hpp"
 #include "include/utils.hpp"
 
+inline std::string format_index(){
+if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0){
+ std::string padding = "0"; 
+ return padding + std::to_string(offline_game_handler_ptr->index);
+}
+else return std::to_string(offline_game_handler_ptr->index);
+}
 
-int check_buttons(SDL_Event *event){
+
+int check_event(SDL_Event *event){
+//check if a button was pressed or even if keys were pressed
 
     
     switch(state_ptr->current_id){
@@ -25,9 +34,11 @@ int check_buttons(SDL_Event *event){
 
     if (buttons.at("play_offline").wasClicked(*event)) {
         state_ptr->change_scene_id(offline_game_scene);
-        offline_game_handler_ptr = new offline_game_handler;
-        
 
+        if(!offline_game_handler_ptr){
+        offline_game_handler_ptr = new offline_game_handler;
+        }
+        
         float pos_x = 200;
         float pos_y = 200;
 
@@ -75,7 +86,7 @@ int check_buttons(SDL_Event *event){
 
 
     if (buttons.at("back_menu").wasClicked(*event)){ 
-        
+        labels.at("question_index").setText("00");
         if (offline_game_handler_ptr){
             delete offline_game_handler_ptr;
             offline_game_handler_ptr = nullptr;
@@ -102,16 +113,16 @@ int check_buttons(SDL_Event *event){
 
         if(offline_game_handler_ptr->index < offline_game_handler_ptr->answers.size()){
             offline_game_handler_ptr->index += 1;
-            SDL_Log("Index: %d\n", offline_game_handler_ptr->index);
+            labels.at("question_index").setText(format_index());
         } 
         
      }
 
      if (buttons.at("previous_question").wasClicked(*event)){ 
        
-        if(offline_game_handler_ptr->index >= 0){
+        if(offline_game_handler_ptr->index > 0){
             offline_game_handler_ptr->index -= 1;
-            SDL_Log("Index: %d\n", offline_game_handler_ptr->index);
+            labels.at("question_index").setText(format_index());
             }      
      
      }
