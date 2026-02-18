@@ -28,9 +28,5 @@ float debug_buf_h = 50;
 float debug_rect_w;
 float debug_rect_h;
 private:
-void render_main_menu();
-void render_game();
-void render_credits();
-void render_marker();
 
 };

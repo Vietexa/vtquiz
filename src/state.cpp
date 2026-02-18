@@ -19,12 +19,7 @@ void render_online_game(void);
 void render_credits(void);
 
 
-void (*scene_ptr[5])(void){
-render_main_menu,
-render_online_game,
-render_offline_game,
-render_credits
-};
+void (*scene_ptr)(void);
 
 
 void render_marker(){
@@ -232,25 +227,42 @@ std::sort(raw_element_ids_s3.begin(), raw_element_ids_s3.end(), compare_elements
      
 }
 
-
-void state::change_scene_id(unsigned char id){ // You change the state 
+// Change the scene id and assign to the function pointer the right function for it
+void state::change_scene_id(unsigned char id){
 
     if (id == current_id){
         SDL_Log("Error: You can't change the game state to the one it's already in\n");
         return;
     }
-    else{ current_id = id;}
+    
+    current_id = id;
+    
+    switch (current_id) {
+    case main_menu_scene:
+    scene_ptr = render_main_menu;
+    break;
+    case online_game_scene:
+    scene_ptr = render_online_game;
+    break;
+    case offline_game_scene:
+    scene_ptr = render_offline_game;
+    break;
+    case credits_scene:
+    scene_ptr = render_credits;
+    break;
+    default:
+    SDL_Log("Error: The scene id doesn't exist\n");
+    break;
+    }
+    
    
 }
 
 
 
 
-void state::render_scene(){ // You render the scene that corresponds to the state
-unsigned char s_id = current_id;
-
-scene_ptr[s_id]();
-
+void state::render_scene(){ 
+scene_ptr();
  }
 
 
