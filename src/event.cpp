@@ -34,11 +34,6 @@ int check_event(SDL_Event *event){
 
     case main_menu_scene:
        
-    if (buttons.at("play_online").wasClicked(*event)) {
-        state_ptr->change_scene_id(online_game_scene);
-        return 0;
-    }
-
     if (buttons.at("play_offline").wasClicked(*event)) {
         state_ptr->change_scene_id(offline_game_scene);
 
@@ -65,7 +60,7 @@ int check_event(SDL_Event *event){
 
     break;
 
-    case online_game_scene:
+    case finish_game_scene:
 
     if (buttons.at("back_menu").wasClicked(*event)){ 
     state_ptr->change_scene_id(main_menu_scene);

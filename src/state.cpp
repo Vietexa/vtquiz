@@ -72,7 +72,7 @@ void add_button(std::string id, char priority, char scene_id, std::string conten
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
     break;
-    case online_game_scene: 
+    case finish_game_scene: 
     raw_element_ids_s1.push_back(element_id + id);
     break;
     case offline_game_scene: 
@@ -97,7 +97,7 @@ void add_label(std::string id, char priority, char scene_id, const std::string& 
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
     break;
-    case online_game_scene: 
+    case finish_game_scene: 
     raw_element_ids_s1.push_back(element_id + id);
     break;
     case offline_game_scene: 
@@ -122,7 +122,7 @@ if(priority >= 0 && scene_id >= 0){
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
     break;
-    case online_game_scene: 
+    case finish_game_scene: 
     raw_element_ids_s1.push_back(element_id + id);
     break;
     case offline_game_scene: 
@@ -144,7 +144,7 @@ void add_rectangle(std::string id, char priority, char scene_id,  float x, float
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
     break;
-    case online_game_scene: 
+    case finish_game_scene: 
     raw_element_ids_s1.push_back(element_id + id);
     break;
     case offline_game_scene: 
@@ -246,7 +246,7 @@ void state::change_scene_id(unsigned char id){
     case main_menu_scene:
     scene_ptr = render_main_menu;
     break;
-    case online_game_scene:
+    case finish_game_scene:
     scene_ptr = render_online_game;
     break;
     case offline_game_scene:
