@@ -61,8 +61,8 @@ void draw_debug_rect(){
 
 
 
+// gui function wrappers
 
-// function wrappers
 void add_button(std::string id, char priority, char scene_id, std::string content, float x, float y, float width, float height ){
 
  buttons.try_emplace(id, renderer, txt_font, content, x, y, width, height, scene_id, priority);
@@ -87,10 +87,12 @@ void add_button(std::string id, char priority, char scene_id, std::string conten
 
 void add_label(std::string id, char priority, char scene_id, const std::string& content, float x, float y, float width, float height){
     
+    // add it to the unordered map with the following params
     labels.try_emplace(id, renderer, txt_font, content, x, y, width, height, scene_id, priority);
 
-    if(priority >= 0 && scene_id >= 0){
-    std::string element_id = "label|";
+    //add it to its designated scene based on scene_id
+    if (priority >= 0 && scene_id >= 0){
+    std::string element_id = "label|"; //when adding it, also include "label|" as a tag to be used when it gets sorted
     switch(scene_id){
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
@@ -107,15 +109,15 @@ void add_label(std::string id, char priority, char scene_id, const std::string& 
 }
 }
 
-// gui function wrappers
+
 void add_texture(std::string id, std::string path, char priority, char scene_id, float x, float y, float height, float width, bool has_destination){
 
-// add it to the unordered map with the following params
+
 textures.try_emplace(id, path, priority, scene_id, x, y, width, height, has_destination);
 
-//add it to its designated scene based on scene_id
+
 if(priority >= 0 && scene_id >= 0){
-    std::string element_id = "texture|"; //when adding it, also include "texture|" as a tag to be used when it gets sorted
+    std::string element_id = "texture|"; 
     switch(scene_id){
     case main_menu_scene:
     raw_element_ids_s0.push_back(element_id + id);
@@ -321,6 +323,7 @@ SDL_RenderClear(renderer);
 
 
 
+SDL_RenderTexture(renderer,offline_game_handler_ptr->background_textures[offline_game_handler_ptr->index],NULL, NULL);
 
 for (const std::string& element : raw_element_ids_s2) {
     std::string element_id = element.substr(0, element.find("|"));
