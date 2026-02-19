@@ -1,0 +1,20 @@
+{
+  "questions": [
+    {
+      "question": "put the question here",
+      "image": "assets/image.png",
+      "answer_x": 50,
+      "answer_y": 80,
+      "answer_width": 200,
+      "answer_height": 700
+    },
+    {
+      "question": "second question",
+      "image": "assets/image2.png",
+      "answer_x": 10,
+      "answer_y": 20,
+      "answer_width": 100,
+      "answer_height": 200
+    }
+  ]
+}

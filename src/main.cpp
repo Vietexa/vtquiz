@@ -1,6 +1,10 @@
 
 #include "SDL3/SDL_mouse.h"
+#include "include/app_context.hpp"
+#include "include/json.hpp"
 #include "include/utils.hpp"
+#include <fstream>
+
 #define SDL_MAIN_USE_CALLBACKS 1 
 
 #include <format>
@@ -28,6 +32,8 @@
 #include "include/utils.hpp"
 #include "include/event.hpp"
 
+using json = nlohmann::json;
+
 #define TARGET_FPS 60
 #define FRAME_TIME (1000 / TARGET_FPS)
 
@@ -44,7 +50,9 @@
  SDL_Renderer* renderer = nullptr;
  TTF_Font * txt_font = nullptr;
  state* state_ptr = nullptr;
+ app_context* app_context_ptr = nullptr;
  offline_game_handler* offline_game_handler_ptr = nullptr;
+ 
 
  int window_size_x = 0;
  int window_size_y = 0;
@@ -100,8 +108,21 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
     }
 
-
     state_ptr = new state;
+
+    app_context_ptr = new app_context;
+
+    std::ifstream game_data("assets/game_data.json");
+
+    if (!game_data.is_open()){
+
+        SDL_Log("Couldn't open game_data.json\n");
+        return SDL_APP_FAILURE;
+
+    }
+
+    app_context_ptr->game_data_j = json::parse(game_data); // parse the file and save it to game_dat_j
+    
     state_ptr->load_assets();
     state_ptr->sort_items();
 
@@ -168,10 +189,11 @@ if (now - lastFpsTime >= 1000) {
 
 
 void SDL_AppQuit(void *appstate, SDL_AppResult result){
-TTF_CloseFont(txt_font);
-TTF_Quit();
-delete state_ptr;
-SDL_DestroyRenderer(renderer);
-SDL_DestroyWindow(window);
+    TTF_CloseFont(txt_font);
+    TTF_Quit();
+    delete state_ptr;
+    delete app_context_ptr;
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 
 }

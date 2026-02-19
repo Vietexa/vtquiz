@@ -39,23 +39,8 @@ int check_event(SDL_Event *event){
         offline_game_handler_ptr = new offline_game_handler;
         }
         
-        float pos_x = 200;
-        float pos_y = 200;
-
-        offline_game_handler_ptr->answers[0] = {500,500,500,500};
-    
-        for (int i = 1; i < 5; i++){
-            offline_game_handler_ptr->answers[i] = {pos_x, pos_y, 200, 200};
-            pos_x += 100;
-            pos_y += 100;
-            SDL_Log("answear coordinates: x: %f y:%f", pos_x, pos_y);
-        }
-
-        for (int i = 0; i < offline_game_handler_ptr->answers.size(); i++){
-
-            offline_game_handler_ptr->registered_positions[i] = {0,0};
-
-        }
+        
+        offline_game_handler_ptr->load_game_data();
 
         return 0;
     }
@@ -111,7 +96,7 @@ int check_event(SDL_Event *event){
 
      if (buttons.at("continue").wasClicked(*event)){
 
-        if(offline_game_handler_ptr->index < offline_game_handler_ptr->answers.size()){
+        if(offline_game_handler_ptr->index + 1 < offline_game_handler_ptr->questions.size()){
             offline_game_handler_ptr->index += 1;
             labels.at("question_index").setText(format_index());
         } 
@@ -128,8 +113,8 @@ int check_event(SDL_Event *event){
      }
 
      if (buttons.at("finish").wasClicked(*event) && offline_game_handler_ptr->is_round_in_progress){ 
-        for (int i = 0; i < offline_game_handler_ptr->answers.size(); i++){
-            if (i <= offline_game_handler_ptr->registered_positions.size()){
+        for (int i = 0; i < offline_game_handler_ptr->questions.size(); i++){
+            if (i < offline_game_handler_ptr->registered_positions.size()){
                 if (offline_game_handler_ptr->check_answer_pos(i)) {
                     offline_game_handler_ptr->correct_answers += 1;
                 }

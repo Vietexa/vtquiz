@@ -3,14 +3,18 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 
-struct answer_position{
-float x_pos;
-float y_pos;
-float width;
-float height;
+
+
+struct question {
+    std::string question;
+    std::string image;
+    int answer_x;
+    int answer_y;
+    int answer_width;
+    int answer_height;
 };
 
 struct registered_position{
@@ -23,9 +27,9 @@ float y_pos;
 class offline_game_handler{
 
 public:
-std::unordered_map<int,answer_position> answers;
-std::unordered_map<int, registered_position> registered_positions;
-std::unordered_map<int, std::string> questions;
+
+std::vector<registered_position> registered_positions;
+std::vector <question> questions;
 
 float saved_mouse_pos_x = 0;
 float saved_mouse_pos_y = 0;
@@ -38,6 +42,7 @@ int wrong_answers = 0;
 
 
 
+void load_game_data();
 bool check_answer_pos(int index);
 void register_pos();
 
