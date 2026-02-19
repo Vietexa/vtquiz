@@ -25,9 +25,9 @@ void offline_game_handler::load_game_data(){
     registered_positions.resize(questions.size(), {0,0});
 
 
-    for (const auto& q : questions) {
+   /* for (const auto& q : questions) {
         SDL_Log("%s, %s, %d, %d, %d, %d,",q.question.c_str(),q.image.c_str(),q.answer_x, q.answer_y, q.answer_width, q.answer_height);
-    }
+    } */
 
 
 }

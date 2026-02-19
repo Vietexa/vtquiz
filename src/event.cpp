@@ -9,6 +9,7 @@
 #include "include/offline_game.hpp"
 #include "include/state.hpp"
 #include "include/utils.hpp"
+#include <strings.h>
 
 inline std::string format_index(){
 if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0){
@@ -16,6 +17,12 @@ if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0
  return padding + std::to_string(offline_game_handler_ptr->index);
 }
 else return std::to_string(offline_game_handler_ptr->index);
+}
+
+inline std::string get_current_question(){
+ int question_index = offline_game_handler_ptr->index;
+ std::string current_question = offline_game_handler_ptr->questions.at(question_index).question;
+ return current_question;
 }
 
 
@@ -41,6 +48,8 @@ int check_event(SDL_Event *event){
         
         
         offline_game_handler_ptr->load_game_data();
+
+        labels.at("current_question").setText(get_current_question());
 
         return 0;
     }
@@ -99,6 +108,7 @@ int check_event(SDL_Event *event){
         if(offline_game_handler_ptr->index + 1 < offline_game_handler_ptr->questions.size()){
             offline_game_handler_ptr->index += 1;
             labels.at("question_index").setText(format_index());
+            labels.at("current_question").setText(get_current_question());
         } 
         
      }
@@ -108,6 +118,7 @@ int check_event(SDL_Event *event){
         if(offline_game_handler_ptr->index > 0){
             offline_game_handler_ptr->index -= 1;
             labels.at("question_index").setText(format_index());
+            labels.at("current_question").setText(get_current_question());
             }      
      
      }

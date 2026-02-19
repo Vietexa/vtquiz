@@ -43,7 +43,7 @@ add_button("back_menu",3,online_game_scene, "Go Back", 50, 1020);
 add_label("info",2,online_game_scene,"Coming soon!", 1, 1);
 
 // Offline Game
-add_label("current_question",2,offline_game_scene,"", 500, 200);
+add_label("current_question",2,offline_game_scene,"", 800, 100);
 add_label("fps_counter",2,offline_game_scene,"", 1, 1);
 add_label("question_index",2,offline_game_scene,"00", 1880, 0);
 add_texture("background","./assets/png_files/image.png", 0, offline_game_scene,0,0,0,0,false);
