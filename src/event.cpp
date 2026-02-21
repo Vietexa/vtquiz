@@ -9,7 +9,6 @@
 #include "include/offline_game.hpp"
 #include "include/state.hpp"
 #include "include/utils.hpp"
-#include <strings.h>
 
 inline std::string format_index(){
 if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0){
