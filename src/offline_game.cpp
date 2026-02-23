@@ -11,8 +11,6 @@
 void offline_game_handler::load_game_data(){
     questions.clear();
     registered_positions.clear();
-    int loop_index;
-    std::string texture_default_n = "texture_";
     for (const auto& item : app_context_ptr->game_data_j["questions"]) {
         question q;
         q.question = item.value("question", "");
@@ -30,10 +28,6 @@ void offline_game_handler::load_game_data(){
     
     registered_positions.resize(questions.size(), {0,0});
 
-
-    state_ptr->sort_items();
-
-    
    for (const auto& q : questions) {
         SDL_Log("%s, %s, %d, %d, %d, %d,",q.question.c_str(),q.image.c_str(),q.answer_x, q.answer_y, q.answer_width, q.answer_height);
     } 

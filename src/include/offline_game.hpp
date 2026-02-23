@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "SDL3/SDL_rect.h"
 #include "SDL3/SDL_render.h"
 #include <string>
 #include <vector>
@@ -32,6 +33,7 @@ public:
 std::vector<registered_position> registered_positions;
 std::vector <question> questions;
 std::vector <SDL_Texture*> background_textures;
+SDL_FRect texture_dst = {0,80,1920,920};
 
 float saved_mouse_pos_x = 0;
 float saved_mouse_pos_y = 0;

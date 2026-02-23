@@ -171,28 +171,24 @@ void Texture::draw(){
     else {SDL_RenderTexture(renderer, m_texture, nullptr, nullptr);}
 }
 
-void draw_border(Uint8 r, Uint8 g, Uint8 b, Uint8 a){
-    
-   
 
-}
 
 Rectangle::Rectangle(char priority, char scene_id, float pos_x, float pos_y, float width, float height)
 : m_priority(priority), m_scene_id(scene_id)
 {
 
-m_rect = {pos_x, pos_x, width, height};
+m_rect = {pos_x, pos_y, width, height};
 
 }
 
 void Rectangle::draw_border(Uint8 r, Uint8 g, Uint8 b, Uint8 a){
-
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_FRect border = {0,1015,1920,65};
-    SDL_RenderFillRect(renderer, &border);
+    SDL_RenderFillRect(renderer, &m_rect);
 
     
 }
+
+
 
 
 

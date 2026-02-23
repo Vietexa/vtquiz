@@ -284,7 +284,7 @@ SDL_RenderClear(renderer);
 
 
 if (offline_game_handler_ptr->subscene == 0){
-SDL_RenderTexture(renderer,offline_game_handler_ptr->background_textures[offline_game_handler_ptr->index],NULL, NULL);
+SDL_RenderTexture(renderer,offline_game_handler_ptr->background_textures[offline_game_handler_ptr->index],NULL,&offline_game_handler_ptr->texture_dst);
 for (const std::string& element : raw_element_ids_s2) {
     std::string element_id = element.substr(0, element.find("|"));
     std::string id = element.substr(element.find("|") + 1);

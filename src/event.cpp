@@ -87,7 +87,7 @@ if (offline_game_handler_ptr->subscene == 0){
 
 
     if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress && offline_game_handler_ptr->subscene == 0){
-            if(event->button.button == SDL_BUTTON_LEFT && state_ptr->mouse_pos_y < 1000){
+            if(event->button.button == SDL_BUTTON_LEFT && state_ptr->mouse_pos_y < 1000 && state_ptr->mouse_pos_y > 80){
 
             offline_game_handler_ptr->saved_mouse_pos_x = state_ptr->mouse_pos_x;
             offline_game_handler_ptr->saved_mouse_pos_y = state_ptr->mouse_pos_y;
@@ -142,12 +142,7 @@ if (offline_game_handler_ptr->subscene == 0){
     
 
 }
-else if (offline_game_handler_ptr->subscene == 1){
 
-
-
-
-    }
     break;
 
 

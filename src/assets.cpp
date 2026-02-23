@@ -42,7 +42,7 @@ add_button("back_menu",3,finish_game_scene, "Go Back", 50, 1020);
 add_label("info",2,finish_game_scene,"Coming soon!", 1, 1);
 
 // Offline Game
-add_label("current_question",2,offline_game_scene,".", 800, 100);
+add_label("current_question",2,offline_game_scene,".", 800, 40);
 add_label("display_score",-1,-1,"Your score is:", 700, 500, 2, 2);
 add_label("fps_counter",2,offline_game_scene,".", 1, 1);
 add_label("question_index",2,offline_game_scene,"00", 1880, 0);
@@ -51,7 +51,8 @@ add_button("back_menu",3,offline_game_scene, "Main Menu", 50, 1020);
 add_button("finish",3,offline_game_scene, "Finish", 1600, 1020);
 add_button("continue",3,offline_game_scene, "Continue", 1300, 1020);
 add_button("previous_question",3,offline_game_scene, "Previous Question", 1000, 1020);
-add_rectangle("border",1,offline_game_scene,0,0,0,0);
+add_rectangle("border",1,offline_game_scene,0,1000,1920,80);
+add_rectangle("border_up",1,offline_game_scene,0,0,1920,80);
 
 // Credits
 add_label("fps_counter",2,credits_scene,".", 1, 1);
