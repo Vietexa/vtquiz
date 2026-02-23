@@ -41,6 +41,7 @@ int index = 0;
 bool is_round_in_progress = true;
 int correct_answers = 0;
 int wrong_answers = 0;
+int subscene = 0;
 
 
 

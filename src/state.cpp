@@ -15,7 +15,6 @@ std::vector<std::string> raw_element_ids_s3;
 
 void render_main_menu(void);
 void render_offline_game(void);
-void render_online_game(void);
 void render_credits(void);
 
 
@@ -23,21 +22,26 @@ void (*scene_ptr)(void);
 
 
 void render_marker(){
-
-    float rect_x, rect_y; // the pos of the marker
-    float rect_w, rect_h ; // its width and height
-    rect_w = rect_h = 50;
-
-    float pos_x = state_ptr->mouse_pos_x;
-    float pos_y = state_ptr->mouse_pos_y;
-
-    rect_x = pos_x -  rect_w / 2; // draw it in the middle
-    rect_y = pos_y - rect_h / 2;
-
-
     
-    SDL_FRect rect = {rect_x ,rect_y ,rect_w,rect_h};
+    if(offline_game_handler_ptr->registered_positions[offline_game_handler_ptr->index].x_pos != 0
+    && offline_game_handler_ptr->registered_positions[offline_game_handler_ptr->index].y_pos != 0){
+    
+        float pos_x = 0;
+        float pos_y = 0;
+        
+        pos_x = offline_game_handler_ptr->registered_positions[offline_game_handler_ptr->index].x_pos;
+        pos_y = offline_game_handler_ptr->registered_positions[offline_game_handler_ptr->index].y_pos;
+    
+
+    float rect_x = pos_x - 25; // draw it in the middle
+    float rect_y = pos_y - 25;
+    
+    
+    SDL_FRect rect = {rect_x ,rect_y ,50,50};
     SDL_RenderTexture(renderer, textures.at("marker").m_texture, nullptr, &rect);
+    }
+
+
 }
 
 
@@ -246,9 +250,6 @@ void state::change_scene_id(unsigned char id){
     case main_menu_scene:
     scene_ptr = render_main_menu;
     break;
-    case finish_game_scene:
-    scene_ptr = render_online_game;
-    break;
     case offline_game_scene:
     scene_ptr = render_offline_game;
     break;
@@ -293,28 +294,6 @@ SDL_RenderPresent(renderer);
 
 
 
-void render_online_game(){
-
-SDL_SetRenderDrawColor(renderer,0,0,0, 255);
-SDL_RenderClear(renderer);
-
-
-for (const std::string& element : raw_element_ids_s1) {
-    std::string element_id = element.substr(0, element.find("|"));
-    std::string id = element.substr(element.find("|") + 1);
-    if (element_id == "button") buttons.at(id).draw();
-    else if (element_id == "label") labels.at(id).draw();
-    else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
-    else if (element_id == "texture") textures.at(id).draw();
-  
-    }
-
-if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
-
-SDL_RenderPresent(renderer);
-
- }
-
 
 void render_offline_game(){
 
@@ -322,9 +301,8 @@ SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
 
-
+if (offline_game_handler_ptr->subscene == 0){
 SDL_RenderTexture(renderer,offline_game_handler_ptr->background_textures[offline_game_handler_ptr->index],NULL, NULL);
-
 for (const std::string& element : raw_element_ids_s2) {
     std::string element_id = element.substr(0, element.find("|"));
     std::string id = element.substr(element.find("|") + 1);
@@ -332,13 +310,19 @@ for (const std::string& element : raw_element_ids_s2) {
     else if (element_id == "label") labels.at(id).draw();
     else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
     else if (element_id == "texture") textures.at(id).draw();
+    render_marker();
     
     }
 
-if (state_ptr->mouse_pos_x != 0 && state_ptr->mouse_pos_y != 0) render_marker();
+
 
 if (state_ptr->mpos_debug_x != 0 && state_ptr->mpos_debug_y != 0) draw_debug_rect();
+}
+else {
+buttons.at("back_menu").draw();
+labels.at("display_score").draw(); 
 
+}
     
 
 SDL_RenderPresent(renderer);

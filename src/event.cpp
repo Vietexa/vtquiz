@@ -48,12 +48,12 @@ int check_event(SDL_Event *event){
         return 0;
     }
 
-    if (buttons.at("credits").wasClicked(*event)){
+    else if (buttons.at("credits").wasClicked(*event)){
         state_ptr->change_scene_id(credits_scene);
         return 0;
     } 
 
-    if (buttons.at("quit").wasClicked(*event)){
+    else if (buttons.at("quit").wasClicked(*event)){
      return 1;
     } 
 
@@ -72,7 +72,6 @@ int check_event(SDL_Event *event){
 
     case offline_game_scene:
 
-
     if (buttons.at("back_menu").wasClicked(*event)){ 
         labels.at("question_index").setText("00");
         if (offline_game_handler_ptr){
@@ -86,9 +85,11 @@ int check_event(SDL_Event *event){
 
     }
 
-    
-    if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress){
-        if(event->button.button == SDL_BUTTON_LEFT && state_ptr->mouse_pos_y < 980){
+if (offline_game_handler_ptr->subscene == 0){
+
+
+    if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress && offline_game_handler_ptr->subscene == 0){
+            if(event->button.button == SDL_BUTTON_LEFT && state_ptr->mouse_pos_y < 1000){
 
             offline_game_handler_ptr->saved_mouse_pos_x = state_ptr->mouse_pos_x;
             offline_game_handler_ptr->saved_mouse_pos_y = state_ptr->mouse_pos_y;
@@ -97,7 +98,9 @@ int check_event(SDL_Event *event){
         }
     }
 
-     if (buttons.at("continue").wasClicked(*event)){
+    
+
+    if (buttons.at("continue").wasClicked(*event) ){
 
         if(offline_game_handler_ptr->index + 1 < offline_game_handler_ptr->questions.size()){
             offline_game_handler_ptr->index += 1;
@@ -107,7 +110,7 @@ int check_event(SDL_Event *event){
         
      }
 
-     if (buttons.at("previous_question").wasClicked(*event)){ 
+    else if (buttons.at("previous_question").wasClicked(*event)){ 
        
         if(offline_game_handler_ptr->index > 0){
             offline_game_handler_ptr->index -= 1;
@@ -117,7 +120,7 @@ int check_event(SDL_Event *event){
      
      }
 
-     if (buttons.at("finish").wasClicked(*event) && offline_game_handler_ptr->is_round_in_progress){ 
+    else if (buttons.at("finish").wasClicked(*event) && offline_game_handler_ptr->is_round_in_progress){ 
         for (int i = 0; i < offline_game_handler_ptr->questions.size(); i++){
             if (i < offline_game_handler_ptr->registered_positions.size()){
                 if (offline_game_handler_ptr->check_answer_pos(i)) {
@@ -131,7 +134,12 @@ int check_event(SDL_Event *event){
             }
         }
         offline_game_handler_ptr->is_round_in_progress = false;
+        std::string correct_answears_str = std::to_string(offline_game_handler_ptr->correct_answers);
+        std::string total_answears_str = std::to_string(offline_game_handler_ptr->registered_positions.size());
+        labels.at("display_score").setText("You got " + correct_answears_str + "/" + total_answears_str + " answers right!");
+        offline_game_handler_ptr->subscene = 1;
      }
+
 
     if(event->type == SDL_EVENT_KEY_DOWN){
 
@@ -169,6 +177,13 @@ int check_event(SDL_Event *event){
         }
     }
 
+}
+else if (offline_game_handler_ptr->subscene == 1){
+
+
+
+
+    }
     break;
 
 
@@ -178,11 +193,11 @@ int check_event(SDL_Event *event){
    if (buttons.at("back_menu").wasClicked(*event)) {state_ptr->change_scene_id(main_menu_scene);
     return 0;
    }
-   if (buttons.at("github").wasClicked(*event)) {
+   else if (buttons.at("github").wasClicked(*event)) {
     SDL_OpenURL("https://github.com/Vietexa/vtquiz/");
     return 0;
    }
-   if (buttons.at("vietexadotcom").wasClicked(*event)) {
+   else if (buttons.at("vietexadotcom").wasClicked(*event)) {
     SDL_OpenURL("https://vietexa.com/");
    return 0;
    }
