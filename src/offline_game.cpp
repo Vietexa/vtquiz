@@ -34,9 +34,9 @@ void offline_game_handler::load_game_data(){
     state_ptr->sort_items();
 
     
-   /* for (const auto& q : questions) {
+   for (const auto& q : questions) {
         SDL_Log("%s, %s, %d, %d, %d, %d,",q.question.c_str(),q.image.c_str(),q.answer_x, q.answer_y, q.answer_width, q.answer_height);
-    } */
+    } 
 
 
 }
@@ -56,18 +56,15 @@ bool offline_game_handler::check_answer_pos(int index){
     float registered_pos_x = registered_positions.at(index).x_pos;
     float registered_pos_y = registered_positions.at(index).y_pos;
 
-    float lg_r_pos_x;
-    float lg_r_pos_y;
-
     float ans_x_pos = questions.at(index).answer_x;
     float ans_y_pos = questions.at(index).answer_y;
     float ans_width = questions.at(index).answer_width;
     float ans_height = questions.at(index).answer_height;
+
     
-    SDL_RenderCoordinatesFromWindow(renderer, registered_pos_x , registered_pos_y, &lg_r_pos_x, &lg_r_pos_y);
     
-    return lg_r_pos_x >= ans_x_pos && lg_r_pos_x <= ans_x_pos + ans_width &&
-           lg_r_pos_y >= ans_y_pos && lg_r_pos_y <= ans_y_pos + ans_height;
+    return registered_pos_x >= ans_x_pos && registered_pos_x <= ans_x_pos + ans_width &&
+           registered_pos_y >= ans_y_pos && registered_pos_y <= ans_y_pos + ans_height;
    
 }
 

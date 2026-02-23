@@ -3,12 +3,10 @@
 #include "SDL3/SDL_log.h"
 #include "SDL3/SDL_misc.h"
 #include "SDL3/SDL_mouse.h"
-#include "SDL3/SDL_scancode.h"
 #include "include/globals.hpp"
 #include "include/gui.hpp"
 #include "include/offline_game.hpp"
 #include "include/state.hpp"
-#include "include/utils.hpp"
 
 inline std::string format_index(){
 if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0){
