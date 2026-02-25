@@ -18,8 +18,12 @@ void sort_items();
 void change_scene_id(unsigned char id);
 void render_scene();
 unsigned char current_id = -1;
+
 float mouse_pos_x = 0;
 float mouse_pos_y = 0;
+
+float d_mouse_pos_x = 0;
+float d_mouse_pos_y = 0;
 
 
 private:

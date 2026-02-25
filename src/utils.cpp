@@ -6,7 +6,7 @@
 #include <SDL3/SDL_log.h>
 
 
-void get_mpos_norm(SDL_Renderer* rnd, float *store_pos_x, float * store_pos_y){
+void get_mpos_norm(SDL_Renderer* rnd, float *store_pos_x, float *store_pos_y){
 
     float pos_x_raw;
     float pos_y_raw;

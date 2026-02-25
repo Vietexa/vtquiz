@@ -1,5 +1,6 @@
 #include "include/event.hpp"
 #include "SDL3/SDL_events.h"
+#include "SDL3/SDL_keycode.h"
 #include "SDL3/SDL_log.h"
 #include "SDL3/SDL_misc.h"
 #include "SDL3/SDL_mouse.h"
@@ -86,13 +87,18 @@ int check_event(SDL_Event *event){
 if (offline_game_handler_ptr->subscene == 0){
 
 
-    if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress && offline_game_handler_ptr->subscene == 0){
+    if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress){
             if(event->button.button == SDL_BUTTON_LEFT && state_ptr->mouse_pos_y < 1000 && state_ptr->mouse_pos_y > 80){
 
             offline_game_handler_ptr->saved_mouse_pos_x = state_ptr->mouse_pos_x;
             offline_game_handler_ptr->saved_mouse_pos_y = state_ptr->mouse_pos_y;
 
             offline_game_handler_ptr->register_pos();
+        }
+            else if (event->button.button == SDL_BUTTON_RIGHT && state_ptr->d_mouse_pos_y < 1000 && state_ptr->d_mouse_pos_y > 80){
+            offline_game_handler_ptr->debug_pos_x = state_ptr->d_mouse_pos_x;
+            offline_game_handler_ptr->debug_pos_y = state_ptr->d_mouse_pos_y;
+            SDL_Log("xpos: %f, ypos: %f, width: %f, height: %f\n",offline_game_handler_ptr->debug_pos_x, offline_game_handler_ptr->debug_pos_y, offline_game_handler_ptr->debug_width, offline_game_handler_ptr->debug_height);
         }
     }
 
@@ -138,8 +144,35 @@ if (offline_game_handler_ptr->subscene == 0){
         offline_game_handler_ptr->subscene = 1;
      }
 
+if (event->type == SDL_EVENT_KEY_DOWN){
 
-    
+    if (event->key.key == SDLK_E) {
+    offline_game_handler_ptr->toggle_debug();
+    }
+
+    if (offline_game_handler_ptr->debug_mode == true){
+        switch (event->key.key){
+
+            case SDLK_W: 
+            offline_game_handler_ptr->debug_height += 50;
+            break;
+
+            case SDLK_A: 
+            offline_game_handler_ptr->debug_width -= 50;
+            break;
+
+            case SDLK_S:
+            offline_game_handler_ptr->debug_height -= 50;
+            break;
+
+            case SDLK_D: 
+            offline_game_handler_ptr->debug_width += 50;
+            break;
+        }
+    }
+}
+
+
 
 }
 

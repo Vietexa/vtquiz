@@ -35,7 +35,10 @@ std::vector <question> questions;
 std::vector <SDL_Texture*> background_textures;
 SDL_FRect texture_dst = {0,80,1920,920};
 
-float saved_mouse_pos_x = 0;
+// the saved mouse position after the logic found in event.cpp
+float saved_mouse_pos_x = 0; 
+
+// the saved mouse position after the logic found in event.cpp
 float saved_mouse_pos_y = 0;
 
 int index = 0;
@@ -45,11 +48,21 @@ int correct_answers = 0;
 int wrong_answers = 0;
 int subscene = 0;
 
+float debug_pos_x = 0;
+float debug_pos_y = 0;
+float debug_width = 50;
+float debug_height = 50;
+bool debug_mode = false;
+
+SDL_FRect debug_rect;
+
 
 
 void load_game_data();
 bool check_answer_pos(int index);
 void register_pos();
+void draw_debug_rect();
+bool toggle_debug();
 
 private:
 

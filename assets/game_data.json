@@ -3,10 +3,10 @@
     {
       "question": "first question",
       "image": "assets/png_files/image.png",
-      "answer_x": 50,
-      "answer_y": 80,
-      "answer_width": 200,
-      "answer_height": 700
+      "answer_x": 316,
+      "answer_y": 721,
+      "answer_width": 50,
+      "answer_height": 50
     },
     {
       "question": "second question",

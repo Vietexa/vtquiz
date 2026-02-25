@@ -1,5 +1,6 @@
 #include "include/offline_game.hpp"
 #include "SDL3/SDL_log.h"
+#include "SDL3/SDL_render.h"
 #include "SDL3_image/SDL_image.h"
 #include "include/globals.hpp"
 #include "include/state.hpp"
@@ -71,6 +72,30 @@ void offline_game_handler::register_pos(){
         registered_positions[index] = {saved_mouse_pos_x, saved_mouse_pos_y};
 
     }
-       
+
+}
+
+
+void offline_game_handler::draw_debug_rect(){
+
+
+if (debug_mode == false || debug_pos_x == 0 || debug_pos_y == 0) return;
+
+debug_rect = {debug_pos_x, debug_pos_y, debug_width, debug_height };
+SDL_RenderFillRect(renderer, &debug_rect);
+
+}
+
+bool offline_game_handler::toggle_debug(){
+
+    if (debug_mode == true){
+        debug_mode = false;
+        SDL_Log("Debug mode set to false\n");
+    }
+    else {debug_mode = true;
+    SDL_Log("Debug mode set to true\n");
+    }
+
+    return debug_mode;
 
 }

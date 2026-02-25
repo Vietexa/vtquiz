@@ -293,6 +293,7 @@ for (const std::string& element : raw_element_ids_s2) {
     else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
     else if (element_id == "texture") textures.at(id).draw();
     render_marker();
+    offline_game_handler_ptr->draw_debug_rect();
     
     }
 
