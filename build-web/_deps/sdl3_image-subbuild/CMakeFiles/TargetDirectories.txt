@@ -1,3 +1,0 @@
-/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_image-subbuild/CMakeFiles/sdl3_image-populate.dir
-/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_image-subbuild/CMakeFiles/edit_cache.dir
-/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_image-subbuild/CMakeFiles/rebuild_cache.dir

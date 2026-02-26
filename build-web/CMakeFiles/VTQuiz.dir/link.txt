@@ -1,1 +1,0 @@
-/usr/lib/emscripten/em++ -O3 -DNDEBUG -sALLOW_MEMORY_GROWTH --preload-file /home/vietexa/Desktop/vtquiz/game_data/assets@assets @CMakeFiles/VTQuiz.dir/objects1.rsp -o VTQuiz.html @CMakeFiles/VTQuiz.dir/linkLibs.rsp

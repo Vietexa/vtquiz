@@ -1,1 +1,0 @@
-/usr/lib/emscripten/em++ -O3 -DNDEBUG @CMakeFiles/camera2png.dir/objects1.rsp -o camera2png.js @CMakeFiles/camera2png.dir/linkLibs.rsp
