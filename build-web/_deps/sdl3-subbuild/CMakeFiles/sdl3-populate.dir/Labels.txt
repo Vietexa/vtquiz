@@ -1,0 +1,14 @@
+# Target labels
+ sdl3-populate
+# Source files and their labels
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/CMakeFiles/sdl3-populate
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/CMakeFiles/sdl3-populate.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/CMakeFiles/sdl3-populate-complete.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-build.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-configure.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-download.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-install.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-mkdir.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-patch.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-test.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-subbuild/sdl3-populate-prefix/src/sdl3-populate-stamp/sdl3-populate-update.rule

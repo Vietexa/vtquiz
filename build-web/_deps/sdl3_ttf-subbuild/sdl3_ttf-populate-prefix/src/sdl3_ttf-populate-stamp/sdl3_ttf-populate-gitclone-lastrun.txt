@@ -1,0 +1,15 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=git
+command=/usr/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/tmp/sdl3_ttf-populate-gitclone.cmake
+source_dir=/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-src
+work_dir=/home/vietexa/Desktop/vtquiz/build-web/_deps
+repository=https://github.com/libsdl-org/SDL_ttf.git
+remote=origin
+init_submodules=TRUE
+recurse_submodules=--recursive
+submodules=
+CMP0097=NEW
+      

@@ -1,0 +1,15 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/vietexa/Desktop/vtquiz/build-web/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3-build/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_image-build/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-build/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-build/external/harfbuzz/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-build/external/freetype/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-build/external/plutovg/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-build/external/plutosvg/cmake_install.cmake",
+		"/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-build/external/plutosvg/examples/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

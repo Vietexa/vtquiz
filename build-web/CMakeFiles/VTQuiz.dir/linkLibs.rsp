@@ -1,0 +1,1 @@
+ "_deps/sdl3-build/libSDL3.a" "_deps/sdl3_image-build/libSDL3_image.a" "_deps/sdl3_ttf-build/libSDL3_ttf.a" -lm 

@@ -1,0 +1,11 @@
+# Hashes of file build rules.
+9b3e4495cdc3837036998ca2edf1aaa1 CMakeFiles/sdl3_ttf-populate
+88d6b1d09dfdac8fb80a82e921ac4c1a CMakeFiles/sdl3_ttf-populate-complete
+470fd8d25170327341d442c3501df4a8 sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-build
+5d17058e9eb8a1442a583f4555382bac sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-configure
+0960a5e515a4e7e63de07c66ac226cb5 sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-download
+365f724f9793fa2c3b12cb4cdf410084 sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-install
+b00db01603dbd6c73358ef93334b6db8 sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-mkdir
+e005f6eb9e686c11497b3dbff8611660 sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-patch
+242378e2c791c1c98c318c60411d3247 sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-test
+ab74c8fb2ce6eff1ac33376961193a3f sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-update

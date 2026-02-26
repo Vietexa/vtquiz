@@ -1,0 +1,14 @@
+# Target labels
+ sdl3_ttf-populate
+# Source files and their labels
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/CMakeFiles/sdl3_ttf-populate
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/CMakeFiles/sdl3_ttf-populate.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/CMakeFiles/sdl3_ttf-populate-complete.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-build.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-configure.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-download.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-install.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-mkdir.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-patch.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-test.rule
+/home/vietexa/Desktop/vtquiz/build-web/_deps/sdl3_ttf-subbuild/sdl3_ttf-populate-prefix/src/sdl3_ttf-populate-stamp/sdl3_ttf-populate-update.rule

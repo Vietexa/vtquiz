@@ -44,11 +44,13 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif()
 
+
 # Fetch the dependencies
 FetchContent_Declare(SDL3
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
     GIT_TAG        release-3.2.26
 )
+
 FetchContent_MakeAvailable(SDL3)
 
 
@@ -63,7 +65,9 @@ FetchContent_Declare(SDL3_ttf
     GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
     GIT_TAG        release-3.2.0
 )
+set(SDLTTF_VENDORED ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(SDL3_ttf)
+
 
 
 
@@ -73,3 +77,12 @@ add_executable(VTQuiz src/main.cpp src/utils.cpp src/gui.cpp src/state.cpp src/e
 target_include_directories(VTQuiz PRIVATE src)
 
 target_link_libraries(VTQuiz PRIVATE SDL3::SDL3 SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf)
+
+if(EMSCRIPTEN)
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+    target_link_options(VTQuiz PRIVATE
+        "-sALLOW_MEMORY_GROWTH"                 
+        "--preload-file" "${CMAKE_SOURCE_DIR}/game_data/assets@assets"
+    )
+endif()

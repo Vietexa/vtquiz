@@ -1,0 +1,1 @@
+/usr/lib/emscripten/em++ -O3 -DNDEBUG @CMakeFiles/svg2png.dir/objects1.rsp -o svg2png.js @CMakeFiles/svg2png.dir/linkLibs.rsp

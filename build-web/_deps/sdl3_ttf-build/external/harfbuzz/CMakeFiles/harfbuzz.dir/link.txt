@@ -1,0 +1,2 @@
+/usr/lib/emscripten/emar qc libharfbuzz.a CMakeFiles/harfbuzz.dir/src/harfbuzz.cc.o
+/usr/lib/emscripten/emranlib libharfbuzz.a

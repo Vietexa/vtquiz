@@ -1,0 +1,1 @@
+/usr/lib/emscripten/em++ -O3 -DNDEBUG @CMakeFiles/emoji2png.dir/objects1.rsp -o emoji2png.js @CMakeFiles/emoji2png.dir/linkLibs.rsp
