@@ -82,7 +82,9 @@ if(EMSCRIPTEN)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 
     target_link_options(VTQuiz PRIVATE
-        "-sALLOW_MEMORY_GROWTH"                 
+        "-sALLOW_MEMORY_GROWTH"
+        "--shell-file" "${CMAKE_SOURCE_DIR}/game_data/shell.html"                 
         "--preload-file" "${CMAKE_SOURCE_DIR}/game_data/assets@assets"
+        
     )
 endif()

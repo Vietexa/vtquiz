@@ -3,6 +3,7 @@
 #include "include/app_context.hpp"
 #include "include/json.hpp"
 #include "include/utils.hpp"
+#include <cstddef>
 #include <fstream>
 
 #define SDL_MAIN_USE_CALLBACKS 1 
@@ -69,14 +70,24 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
     }
 
     
-    window = SDL_CreateWindow("VTQuiz",1920, 1080, SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    #ifdef __EMSCRIPTEN__
+        window = SDL_CreateWindow("VTQuiz",1920, 1080, SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    #else
+        window = SDL_CreateWindow("VTQuiz",1920, 1080,SDL_WINDOW_HIGH_PIXEL_DENSITY);
+    #endif
+
+
     
     if (!window) {
         SDL_Log("Couldn't create the window: %s", SDL_GetError());  
         return SDL_APP_FAILURE;    
     }
 
+
+    #ifndef  __EMSCRIPTEN__
     SDL_SetWindowFullscreen(window, true);
+    #endif
+
 
     renderer = SDL_CreateRenderer(window, NULL);
 
@@ -143,8 +154,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event){
 
     if (check_event(event) == 1 ) return SDL_APP_SUCCESS;
     
-    if (event->type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) SDL_GetWindowSizeInPixels(window, &window_size_x, &window_size_y);
-
     return SDL_APP_CONTINUE; 
  }
 
