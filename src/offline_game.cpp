@@ -12,7 +12,7 @@
 void offline_game_handler::load_game_data(){
     questions.clear();
     registered_positions.clear();
-    for (const auto& item : app_context_ptr->game_data_j["questions"]) {
+    for (const auto& item : app_context_ptr->game_data_vec.at(current_quiz)["questions"]) {
         question q;
         q.question = item.value("question", "");
         q.image = item.value("image", "");

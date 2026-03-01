@@ -8,6 +8,7 @@
 #include "include/gui.hpp"
 #include "include/offline_game.hpp"
 #include "include/state.hpp"
+#include <string>
 
 inline std::string format_index(){
 if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0){
@@ -39,10 +40,8 @@ int check_event(SDL_Event *event){
         offline_game_handler_ptr = new offline_game_handler;
         }
         
+        offline_game_handler_ptr->current_subscene = offline_game_handler::select_quiz_subscene;
         
-        offline_game_handler_ptr->load_game_data();
-
-        labels.at("current_question").setText(get_current_question());
 
         return 0;
     }
@@ -71,6 +70,22 @@ int check_event(SDL_Event *event){
 
     case offline_game_scene:
 
+    if (offline_game_handler_ptr->current_subscene == offline_game_handler::select_quiz_subscene){
+    for (int i = 0; i < app_context_ptr->total_quizes; i++){
+
+        if (buttons.at(app_context_ptr->button_name_str + std::to_string(i)).wasClicked(*event)){
+        offline_game_handler_ptr->current_quiz = i;
+
+        offline_game_handler_ptr->load_game_data();
+
+        labels.at("current_question").setText(get_current_question());
+        offline_game_handler_ptr->current_subscene = offline_game_handler::game_subscene;
+        }
+
+    }
+}
+
+
     if (buttons.at("back_menu").wasClicked(*event)){ 
         labels.at("question_index").setText("00");
         if (offline_game_handler_ptr){
@@ -84,7 +99,7 @@ int check_event(SDL_Event *event){
 
     }
 
-if (offline_game_handler_ptr->subscene == 0){
+if (offline_game_handler_ptr->current_subscene == offline_game_handler::game_subscene){
 
 
     if(event->type == SDL_EVENT_MOUSE_BUTTON_DOWN && offline_game_handler_ptr->is_round_in_progress){
@@ -141,7 +156,7 @@ if (offline_game_handler_ptr->subscene == 0){
         std::string correct_answears_str = std::to_string(offline_game_handler_ptr->correct_answers);
         std::string total_answears_str = std::to_string(offline_game_handler_ptr->registered_positions.size());
         labels.at("display_score").setText("You got " + correct_answears_str + "/" + total_answears_str + " answers right!");
-        offline_game_handler_ptr->subscene = 1;
+        offline_game_handler_ptr->current_subscene = offline_game_handler::final_menu_subscene;
      }
 
 if (event->type == SDL_EVENT_KEY_DOWN){

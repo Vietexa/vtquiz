@@ -1,4 +1,5 @@
 #include "include/assets.hpp"
+#include "include/globals.hpp"
 #include "include/state.hpp"
 
 
@@ -53,6 +54,30 @@ add_button("continue",3,offline_game_scene, "Continue", 1300, 1020);
 add_button("previous_question",3,offline_game_scene, "Previous Question", 1000, 1020);
 add_rectangle("border",1,offline_game_scene,0,1000,1920,80);
 add_rectangle("border_up",1,offline_game_scene,0,0,1920,80);
+if (app_context_ptr->total_quizes <= 20){
+    std::string btn_id_str = "quiz_button_";
+    std::string quiz_num_str = "Quiz Number ";
+    
+    int xpos = 100;
+    int ypos = 100;
+
+    for (int i = 0; i < app_context_ptr->total_quizes; i++ ){
+        std::string btn_id_full = btn_id_str + std::to_string(i);
+        std::string quiz_num_full = quiz_num_str + std::to_string(i);
+    
+        add_button(btn_id_full,-1,-1, quiz_num_full,xpos, ypos);
+
+        xpos += 300;
+
+        if (xpos >= 980){
+            ypos += 100;
+            xpos = 100;
+         }
+
+
+    }
+    
+}
 
 // Credits
 add_label("fps_counter",2,credits_scene,".", 1, 1);

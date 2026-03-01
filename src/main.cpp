@@ -123,16 +123,43 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]){
 
     app_context_ptr = new app_context;
 
-    std::ifstream game_data("assets/game_data.json");
+    std::ifstream quiz_data("assets/quiz_data.json");
 
-    if (!game_data.is_open()){
+    if (!quiz_data.is_open()){
 
-        SDL_Log("Couldn't open game_data.json\n");
+        SDL_Log("Couldn't open quiz_data.json\n");
         return SDL_APP_FAILURE;
 
     }
 
-    app_context_ptr->game_data_j = json::parse(game_data); // parse the file and save it to game_dat_j
+    app_context_ptr->quiz_data_j = json::parse(quiz_data);
+    app_context_ptr->total_quizes = app_context_ptr->quiz_data_j["total_quizes"];
+
+    if (app_context_ptr->total_quizes < 0 || app_context_ptr->total_quizes > 20){
+        SDL_Log("Invalid number of total quizes\n");
+        return SDL_APP_FAILURE;
+    }
+
+
+
+    
+
+  for (int i = 0; i < app_context_ptr->total_quizes; i++){
+    std::string file_name =  "assets/game_data_" + std::to_string(i) + ".json";
+    std::ifstream game_data(file_name);
+
+    if (!game_data.is_open()) {
+    SDL_Log("Couldn't open %s\n",file_name.c_str());
+    return SDL_APP_FAILURE;
+    }
+    app_context_ptr->game_data_vec.push_back(json::parse(game_data));
+
+
+  }
+    
+
+
+
     
     state_ptr->load_assets();
     state_ptr->sort_items();

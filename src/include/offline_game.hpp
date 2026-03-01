@@ -46,7 +46,16 @@ int index = 0;
 bool is_round_in_progress = true;
 int correct_answers = 0;
 int wrong_answers = 0;
-int subscene = 0;
+
+enum subscenes{
+select_quiz_subscene,
+game_subscene,
+final_menu_subscene
+};
+
+int current_subscene;
+
+int current_quiz = -1;
 
 float debug_pos_x = 0;
 float debug_pos_y = 0;

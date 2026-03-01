@@ -3,6 +3,7 @@
 #include "SDL3/SDL_render.h"
 #include "include/gui.hpp"
 #include "include/globals.hpp"
+#include "include/offline_game.hpp"
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -246,6 +247,40 @@ void state::change_scene_id(unsigned char id){
    
 }
 
+void render_select_quiz_scene(){
+    std::string btn_name = "quiz_button_";
+
+    for (int i = 0; i < app_context_ptr->total_quizes; i++){
+        buttons.at(btn_name + std::to_string(i)).draw();
+    }
+    buttons.at("back_menu").draw();
+
+}
+
+void render_game_scene(){
+
+    SDL_RenderTexture(renderer,offline_game_handler_ptr->background_textures[offline_game_handler_ptr->index],NULL,&offline_game_handler_ptr->texture_dst);
+    for (const std::string& element : raw_element_ids_s2) {
+        std::string element_id = element.substr(0, element.find("|"));
+        std::string id = element.substr(element.find("|") + 1);
+        if (element_id == "button") buttons.at(id).draw();
+        else if (element_id == "label") labels.at(id).draw();
+        else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
+        else if (element_id == "texture") textures.at(id).draw();
+    }
+
+    render_marker();
+    offline_game_handler_ptr->draw_debug_rect();
+}
+
+void render_final_score_scene(){
+
+buttons.at("back_menu").draw();
+labels.at("display_score").draw(); 
+
+}
+
+
 
 
 // call the function pointer to render the scene
@@ -282,27 +317,17 @@ void render_offline_game(){
 SDL_SetRenderDrawColor(renderer,0,0,0, 255);
 SDL_RenderClear(renderer);
 
+switch (offline_game_handler_ptr->current_subscene){
 
-if (offline_game_handler_ptr->subscene == 0){
-SDL_RenderTexture(renderer,offline_game_handler_ptr->background_textures[offline_game_handler_ptr->index],NULL,&offline_game_handler_ptr->texture_dst);
-for (const std::string& element : raw_element_ids_s2) {
-    std::string element_id = element.substr(0, element.find("|"));
-    std::string id = element.substr(element.find("|") + 1);
-    if (element_id == "button") buttons.at(id).draw();
-    else if (element_id == "label") labels.at(id).draw();
-    else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
-    else if (element_id == "texture") textures.at(id).draw();
-    render_marker();
-    offline_game_handler_ptr->draw_debug_rect();
-    
-    }
-
-
-
-}
-else {
-buttons.at("back_menu").draw();
-labels.at("display_score").draw(); 
+    case offline_game_handler::select_quiz_subscene:
+    render_select_quiz_scene();
+    break;
+    case offline_game_handler::game_subscene:
+    render_game_scene();
+    break;
+    case offline_game_handler::final_menu_subscene:
+    render_final_score_scene();
+    break;
 
 }
     

@@ -30,7 +30,7 @@ else()
 endif()
 
 # Disable the SDL_Image backends
-foreach(loader AVIF BMP GIF JPG LBM PCX PNM QOI SVG TGA TIF WEBP XCF XPM XV STB)
+foreach(loader AVIF BMP GIF LBM PCX PNM QOI SVG TGA TIF XCF XPM XV STB)
     set(SDLIMAGE_${loader} OFF CACHE BOOL "" FORCE)
 endforeach()
 
