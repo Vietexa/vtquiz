@@ -52,6 +52,7 @@ add_button("back_menu",3,offline_game_scene, "Main Menu", 50, 1020);
 add_button("finish",3,offline_game_scene, "Finish", 1600, 1020);
 add_button("continue",3,offline_game_scene, "Continue", 1300, 1020);
 add_button("previous_question",3,offline_game_scene, "Previous Question", 1000, 1020);
+add_button("show_results",-1,-1, "Show Results", 1000, 1020);
 add_rectangle("border",1,offline_game_scene,0,1000,1920,80);
 add_rectangle("border_up",1,offline_game_scene,0,0,1920,80);
 if (app_context_ptr->total_quizes <= 20){
@@ -69,7 +70,7 @@ if (app_context_ptr->total_quizes <= 20){
 
         xpos += 300;
 
-        if (xpos >= 980){
+        if (xpos >= 1720){
             ypos += 100;
             xpos = 100;
          }

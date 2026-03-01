@@ -18,9 +18,23 @@ if (offline_game_handler_ptr->index < 10 && offline_game_handler_ptr->index >= 0
 else return std::to_string(offline_game_handler_ptr->index);
 }
 
+inline std::string format_wrong_index(){
+if (offline_game_handler_ptr->wrong_answer_index < 10 && offline_game_handler_ptr->wrong_answer_index >= 0){
+ std::string padding = "0"; 
+ return padding + std::to_string(offline_game_handler_ptr->wrong_answer_index);
+}
+else return std::to_string(offline_game_handler_ptr->wrong_answer_index);
+}
+
 inline std::string get_current_question(){
  int question_index = offline_game_handler_ptr->index;
  std::string current_question = offline_game_handler_ptr->questions.at(question_index).question;
+ return current_question;
+}
+
+inline std::string get_current_wrong_question(){
+ int question_index = offline_game_handler_ptr->wrong_answer_index;
+ std::string current_question = offline_game_handler_ptr->wrong_answers_q.at(question_index).question;
  return current_question;
 }
 
@@ -147,6 +161,8 @@ if (offline_game_handler_ptr->current_subscene == offline_game_handler::game_sub
                 }
                 else{
                     offline_game_handler_ptr->wrong_answers += 1;
+                    offline_game_handler_ptr->wrong_answers_q.push_back(offline_game_handler_ptr->questions.at(i));
+                    offline_game_handler_ptr->wrong_answer_textures.push_back(offline_game_handler_ptr->background_textures.at(i));
                 }
                 SDL_Log("Correct answers: %d, Wrong answers: %d",offline_game_handler_ptr->correct_answers, offline_game_handler_ptr->wrong_answers);
                 
@@ -190,6 +206,57 @@ if (event->type == SDL_EVENT_KEY_DOWN){
 
 
 }
+
+if (offline_game_handler_ptr->current_subscene == offline_game_handler::final_menu_subscene){
+
+    if (buttons.at("show_results").wasClicked(*event)){
+        labels.at("question_index").setText(format_wrong_index());
+        labels.at("current_question").setText(get_current_wrong_question());
+        offline_game_handler_ptr->current_subscene = offline_game_handler::results_subscene;
+    }
+}
+
+if (offline_game_handler_ptr->current_subscene == offline_game_handler::results_subscene){
+
+    if (buttons.at("previous_question").wasClicked(*event)){ 
+       
+        if(offline_game_handler_ptr->wrong_answer_index > 0){
+            offline_game_handler_ptr->wrong_answer_index -= 1;
+            labels.at("question_index").setText(format_wrong_index());
+            labels.at("current_question").setText(get_current_wrong_question());
+            }      
+     
+     }
+
+    else if (buttons.at("continue").wasClicked(*event) ){
+
+        if(offline_game_handler_ptr->wrong_answer_index + 1 < offline_game_handler_ptr->wrong_answers_q.size()){
+            offline_game_handler_ptr->wrong_answer_index += 1;
+            labels.at("question_index").setText(format_wrong_index());
+            labels.at("current_question").setText(get_current_wrong_question());
+        } 
+        
+     }
+
+    else if(buttons.at("finish").wasClicked(*event)){
+        labels.at("question_index").setText("00");
+        offline_game_handler_ptr->current_subscene = 0;
+        offline_game_handler_ptr->wrong_answers_q.clear();
+        offline_game_handler_ptr->wrong_answer_index = 0;
+
+        if (offline_game_handler_ptr){
+            delete offline_game_handler_ptr;
+            offline_game_handler_ptr = nullptr;
+        }
+
+    state_ptr->change_scene_id(main_menu_scene);
+   
+    }
+
+    
+
+}
+
 
     break;
 

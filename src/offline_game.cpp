@@ -9,6 +9,7 @@
 
 //Offline game scene logic
 
+
 void offline_game_handler::load_game_data(){
     questions.clear();
     registered_positions.clear();
@@ -98,4 +99,8 @@ bool offline_game_handler::toggle_debug(){
 
     return debug_mode;
 
+}
+
+void offline_game_handler::show_wrong_answers(){
+    
 }

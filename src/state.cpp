@@ -45,6 +45,24 @@ void render_marker(){
 
 }
 
+void render_wrong_marker(){
+    float x = offline_game_handler_ptr->wrong_answers_q.at(offline_game_handler_ptr->wrong_answer_index).answer_x;
+    float y = offline_game_handler_ptr->wrong_answers_q.at(offline_game_handler_ptr->wrong_answer_index).answer_y;
+
+    float width = offline_game_handler_ptr->wrong_answers_q.at(offline_game_handler_ptr->wrong_answer_index).answer_width;
+    float height = offline_game_handler_ptr->wrong_answers_q.at(offline_game_handler_ptr->wrong_answer_index).answer_height;
+
+    float inner_w = 50.0f;
+    float inner_h = 50.0f;
+
+    float inner_x = x + (width  - inner_w)  / 2.0f;
+    float inner_y = y + (height - inner_h) / 2.0f;
+
+
+    SDL_FRect rect = {inner_x, inner_y ,50,50};
+    SDL_RenderTexture(renderer, textures.at("marker").m_texture, nullptr, &rect);
+}
+
 
 
 
@@ -247,6 +265,23 @@ void state::change_scene_id(unsigned char id){
    
 }
 
+void render_results_subscene(){
+    SDL_RenderTexture(renderer,offline_game_handler_ptr->wrong_answer_textures[offline_game_handler_ptr->wrong_answer_index],NULL,&offline_game_handler_ptr->texture_dst);
+    
+    for (const std::string& element : raw_element_ids_s2) {
+        std::string element_id = element.substr(0, element.find("|"));
+        std::string id = element.substr(element.find("|") + 1);
+        if (element_id == "button") buttons.at(id).draw();
+        else if (element_id == "label") labels.at(id).draw();
+        else if (element_id == "rectangle") rectangles.at(id).draw_border(0,0,0,255);
+        else if (element_id == "texture") textures.at(id).draw();
+    }
+    render_wrong_marker();
+    
+
+
+}
+
 void render_select_quiz_scene(){
     std::string btn_name = "quiz_button_";
 
@@ -276,6 +311,7 @@ void render_game_scene(){
 void render_final_score_scene(){
 
 buttons.at("back_menu").draw();
+buttons.at("show_results").draw();
 labels.at("display_score").draw(); 
 
 }
@@ -327,6 +363,9 @@ switch (offline_game_handler_ptr->current_subscene){
     break;
     case offline_game_handler::final_menu_subscene:
     render_final_score_scene();
+    break;
+    case offline_game_handler::results_subscene:
+    render_results_subscene();
     break;
 
 }
