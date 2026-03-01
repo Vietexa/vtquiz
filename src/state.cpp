@@ -312,7 +312,8 @@ void render_final_score_scene(){
 
 buttons.at("back_menu").draw();
 buttons.at("show_results").draw();
-labels.at("display_score").draw(); 
+labels.at("display_score").draw();
+labels.at("final_info").draw();
 
 }
 
