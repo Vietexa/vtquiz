@@ -28,6 +28,8 @@ float y_pos;
 
 class offline_game_handler{
 
+
+
 public:
 
 std::vector<registered_position> registered_positions;
@@ -69,7 +71,7 @@ bool debug_mode = false;
 
 SDL_FRect debug_rect;
 
-
+~offline_game_handler();
 
 void load_game_data();
 bool check_answer_pos(int index);

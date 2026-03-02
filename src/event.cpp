@@ -241,7 +241,6 @@ if (offline_game_handler_ptr->current_subscene == offline_game_handler::results_
     else if(buttons.at("finish").wasClicked(*event)){
         labels.at("question_index").setText("00");
         offline_game_handler_ptr->current_subscene = 0;
-        offline_game_handler_ptr->wrong_answers_q.clear();
         offline_game_handler_ptr->wrong_answer_index = 0;
 
         if (offline_game_handler_ptr){

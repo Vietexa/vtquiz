@@ -10,6 +10,24 @@
 //Offline game scene logic
 
 
+
+offline_game_handler::~offline_game_handler() {
+
+    for (auto tex : background_textures) {
+        if (tex) {
+            SDL_DestroyTexture(tex);
+        }
+    }
+
+    for (auto tex : wrong_answer_textures) {
+        if (tex) {
+            SDL_DestroyTexture(tex);
+        }
+    }
+}
+
+
+
 void offline_game_handler::load_game_data(){
     questions.clear();
     registered_positions.clear();
@@ -104,3 +122,4 @@ bool offline_game_handler::toggle_debug(){
 void offline_game_handler::show_wrong_answers(){
     
 }
+
