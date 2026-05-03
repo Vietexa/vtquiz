@@ -311,9 +311,16 @@ void render_game_scene(){
 void render_final_score_scene(){
 
 buttons.at("back_menu").draw();
+
+//only display the button if the player got something wrong
+if (offline_game_handler_ptr->wrong_answers != 0){
 buttons.at("show_results").draw();
+}
 labels.at("display_score").draw();
+// only display that message if the player got something wrong
+if (offline_game_handler_ptr->wrong_answers != 0){
 labels.at("final_info").draw();
+}
 
 }
 

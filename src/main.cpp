@@ -216,9 +216,11 @@ if (now - lastFpsTime >= 1000) {
 
     frameTime = SDL_GetTicks() - frameStart;
 
+    #ifndef __EMSCRIPTEN__
     if (frameTime < FRAME_TIME) {
         SDL_Delay(FRAME_TIME - frameTime);
     }
+    #endif
 
     
 

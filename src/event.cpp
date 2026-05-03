@@ -75,6 +75,7 @@ int check_event(SDL_Event *event){
 
     if (buttons.at("back_menu").wasClicked(*event)){ 
     state_ptr->change_scene_id(main_menu_scene);
+    delete offline_game_handler_ptr;
     return 0;
     }
 
@@ -208,8 +209,8 @@ if (event->type == SDL_EVENT_KEY_DOWN){
 }
 
 if (offline_game_handler_ptr->current_subscene == offline_game_handler::final_menu_subscene){
-
-    if (buttons.at("show_results").wasClicked(*event)){
+    // only allow this button to be clicked if you're in the right subscene and there's one or more questions wrong
+    if (buttons.at("show_results").wasClicked(*event) && offline_game_handler_ptr->wrong_answers != 0){
         labels.at("question_index").setText(format_wrong_index());
         labels.at("current_question").setText(get_current_wrong_question());
         offline_game_handler_ptr->current_subscene = offline_game_handler::results_subscene;
